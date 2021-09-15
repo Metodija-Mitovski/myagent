@@ -17,7 +17,6 @@ import {
 
 // react icons
 import { FiCamera } from "react-icons/fi";
-import { MdSlowMotionVideo } from "react-icons/md";
 import { BiBed, BiBath } from "react-icons/bi";
 import { FaVectorSquare } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";

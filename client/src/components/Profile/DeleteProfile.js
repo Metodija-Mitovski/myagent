@@ -80,7 +80,11 @@ const DeleteProfile = () => {
           />
           {infoMsg && <Error>{infoMsg}</Error>}
         </UserDataWrapper>
-        <ProcesBtn isUpdatingData={isUpdatingData} isFetching={isFetching} />
+        <ProcesBtn
+          isUpdatingData={isUpdatingData}
+          isFetching={isFetching}
+          deactivateAcc={true}
+        />
       </UserPasswordForm>
     </>
   );

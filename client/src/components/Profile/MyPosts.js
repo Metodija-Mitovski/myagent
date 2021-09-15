@@ -1,5 +1,3 @@
-import { InfoWrapper } from "./DashInfoElements";
-
 const MyPosts = () => {
   return <>My posts</>;
 };

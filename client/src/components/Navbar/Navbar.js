@@ -29,7 +29,7 @@ const NavBar = (props) => {
 
   useEffect(() => {
     dispatch(getCurrentUser());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Header>

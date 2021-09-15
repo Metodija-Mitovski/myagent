@@ -36,19 +36,19 @@ const Footer = () => {
         <p> &copy; 2021 МојАгент </p>
       </CopyRight>
       <FooterLinksWrapper>
-        <SocialLink>
+        <SocialLink to="/">
           <FaFacebookSquare />
         </SocialLink>
 
-        <SocialLink>
+        <SocialLink to="/">
           <FaInstagram />
         </SocialLink>
 
-        <SocialLink>
+        <SocialLink to="/">
           <FaLinkedin />
         </SocialLink>
         <br />
-        <TermsConditionsLink>правила и услови</TermsConditionsLink>
+        <TermsConditionsLink to="/">правила и услови</TermsConditionsLink>
       </FooterLinksWrapper>
     </FooterSection>
   );

@@ -13,7 +13,7 @@ const QueryUtils = () => {
     <Wrapper>
       <QueryForm>
         {/* qiery option */}
-        <SelectCities />
+        <SelectCities post={false} />
         {/* qiery option */}
         <Select name="propery-status" id="property-status">
           <Option value="propery-status">статус на недвижност:</Option>
@@ -26,7 +26,6 @@ const QueryUtils = () => {
           <Option value="property-type">стан</Option>
           <Option value="property-type">куќа</Option>
           <Option value="property-type">гарсоњера</Option>
-          <Option value="property-type">студио</Option>
         </Select>
         <SearchBtn type="submit">Барај</SearchBtn>
       </QueryForm>

@@ -19,7 +19,7 @@ const ProcesBtn = (props) => {
         <ButtonWrapper>
           {" "}
           <button type="submit" disabled>
-            Промени
+            {props.deactivateAcc ? "Деактивирај" : "Промени"}
           </button>
         </ButtonWrapper>
       )}

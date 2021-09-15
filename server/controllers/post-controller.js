@@ -4,13 +4,34 @@ const { postError } = require("../errors/error-handler");
 
 module.exports.post_addNewPost = async (req, res) => {
   const newPost = req.body;
-  newPost.userId = req.userId;
+  newPost.user = req.userId;
 
   try {
-    await Post.create(newPost);
-    res.status(200).json(newPost);
+    const post = await Post.create(newPost);
+    res.status(200).json(post);
   } catch (error) {
-    const errorData = postError(error);
-    res.status(400).json(errorData);
+    if (error.errors) {
+      const errorData = postError(error);
+      res.status(400).json(errorData);
+      return;
+    }
+
+    res.status(400).send("Серверска грешка");
+  }
+};
+
+module.exports.patch_addImages = async (req, res) => {
+  const postId = req.params.id;
+  const images = req.body.images;
+  console.log(req.body);
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) throw new Error();
+    post.images = images;
+    await post.save();
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json(error);
   }
 };

@@ -1,47 +1,68 @@
+import PropTypes from "prop-types";
 import { Select, Option } from "./QueryUtilElements";
 
 const SelectCities = (props) => {
+  const { setPostData } = props;
+
   return (
-    <Select post={props.post ? true : false} name="city" id="city">
-      <Option value="choosecity">град:</Option>
-      <Option value="choosecity">Цела Македонија</Option>
-      <Option value="choosecity">Скопје</Option>
-      <Option value="choosecity">Охрид</Option>
-      <Option value="choosecity">Струга</Option>
-      <Option value="choosecity">Дојран</Option>
-      <Option value="choosecity">Куманово</Option>
-      <Option value="choosecity">Битола</Option>
-      <Option value="choosecity">Штип</Option>
-      <Option value="choosecity">Велес</Option>
-      <Option value="choosecity">Демир Капија</Option>
-      <Option value="choosecity">Кавадарци</Option>
-      <Option value="choosecity">Неготино</Option>
-      <Option value="choosecity">Свети Николе</Option>
-      <Option value="choosecity">Берово</Option>
-      <Option value="choosecity">Виница</Option>
-      <Option value="choosecity">Делчево</Option>
-      <Option value="choosecity">Кочани</Option>
-      <Option value="choosecity">Македонска Каменица</Option>
-      <Option value="choosecity">Пехчево</Option>
-      <Option value="choosecity">Пробиштип</Option>
-      <Option value="choosecity">Дебар</Option>
-      <Option value="choosecity">Кичево</Option>
-      <Option value="choosecity">Македонски Брод</Option>
-      <Option value="choosecity">Богданци</Option>
-      <Option value="choosecity">Валандово</Option>
-      <Option value="choosecity">Гевгелија</Option>
-      <Option value="choosecity">Радовиш</Option>
-      <Option value="choosecity">Струмица</Option>
-      <Option value="choosecity">Демир Хисар</Option>
-      <Option value="choosecity">Крушево</Option>
-      <Option value="choosecity">Прилеп</Option>
-      <Option value="choosecity">Ресен</Option>
-      <Option value="choosecity">Гостивар</Option>
-      <Option value="choosecity">Тетово</Option>
-      <Option value="choosecity">Крива Паланка</Option>
-      <Option value="choosecity">Кратово</Option>
+    <Select
+      post={props.post ? true : false}
+      id="city"
+      onChange={(e) => {
+        if (props.post === true) {
+          setPostData((prevState) => {
+            return {
+              ...prevState,
+              location: { ...prevState.location, city: e.target.value },
+            };
+          });
+        }
+      }}
+    >
+      <Option value="">град:</Option>
+      {props.post === false && <Option>Цела Македонија</Option>}
+      <Option>Скопје</Option>
+      <Option>Охрид</Option>
+      <Option>Струга</Option>
+      <Option>Дојран</Option>
+      <Option>Куманово</Option>
+      <Option>Битола</Option>
+      <Option>Штип</Option>
+      <Option>Велес</Option>
+      <Option>Демир Капија</Option>
+      <Option>Кавадарци</Option>
+      <Option>Неготино</Option>
+      <Option>Свети Николе</Option>
+      <Option>Берово</Option>
+      <Option>Виница</Option>
+      <Option>Делчево</Option>
+      <Option>Кочани</Option>
+      <Option>Македонска Каменица</Option>
+      <Option>Пехчево</Option>
+      <Option>Пробиштип</Option>
+      <Option>Дебар</Option>
+      <Option>Кичево</Option>
+      <Option>Македонски Брод</Option>
+      <Option>Богданци</Option>
+      <Option>Валандово</Option>
+      <Option>Гевгелија</Option>
+      <Option>Радовиш</Option>
+      <Option>Струмица</Option>
+      <Option>Демир Хисар</Option>
+      <Option>Крушево</Option>
+      <Option>Прилеп</Option>
+      <Option>Ресен</Option>
+      <Option>Гостивар</Option>
+      <Option>Тетово</Option>
+      <Option>Крива Паланка</Option>
+      <Option>Кратово</Option>
     </Select>
   );
+};
+
+SelectCities.propTypes = {
+  post: PropTypes.bool,
+  setpostData: PropTypes.func,
 };
 
 export default SelectCities;

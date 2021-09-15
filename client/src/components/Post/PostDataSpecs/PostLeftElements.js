@@ -80,6 +80,7 @@ export const DataLeftBottom = styled.div`
   grid-column-gap: 2rem;
   grid-row-gap: 1rem;
   width: 30rem;
+  align-items: center;
 `;
 
 export const Select = styled.select`
@@ -115,6 +116,7 @@ export const Select = styled.select`
 export const Option = styled.option``;
 
 export const AddButton = styled.button`
+  width: ${(props) => (props.images ? "14rem" : "auto")};
   margin: 3.5rem 0;
   padding: 1rem;
   font-size: 1.1rem;
@@ -128,7 +130,19 @@ export const AddButton = styled.button`
   -moz-box-shadow: 1px 1px 8px 0px rgba(56, 56, 56, 1);
   box-shadow: 1px 1px 8px 0px rgba(56, 56, 56, 1);
 
+  &.disable {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
   &:hover {
     background: #ff5a3c;
   }
+`;
+
+export const ErrMsg = styled.p`
+  color: red;
+  font-size: 12px;
+  margin-bottom: 5px;
+  place-self: center start;
 `;

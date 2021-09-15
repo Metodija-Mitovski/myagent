@@ -60,14 +60,14 @@ const ProfileData = () => {
   useEffect(() => {
     if (user.firstName !== updateUserData.firstName) {
       setIsUpdataingData(true);
-    } else if (user.lastName !== updateUserData.lastName) {
+    } else if (user.lastName !== updateUserData.firstName) {
       setIsUpdataingData(true);
-    } else if (user.email !== updateUserData.email) {
+    } else if (user.email !== updateUserData.firstName) {
       setIsUpdataingData(true);
     } else {
       setIsUpdataingData(false);
     }
-  });
+  }, []);
 
   return (
     <InfoWrapper>

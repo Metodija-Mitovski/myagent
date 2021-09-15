@@ -27,7 +27,7 @@ export const updateUser = (userData) => {
 export const userLogout = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:5000/user/logout", {
+      await axios.get("http://localhost:5000/user/logout", {
         withCredentials: true,
       });
 

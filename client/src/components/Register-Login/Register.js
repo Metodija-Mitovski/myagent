@@ -46,7 +46,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/user/signup", {
+      await axios.post("http://localhost:5000/user/signup", {
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,

@@ -13,7 +13,7 @@ const isAuth = (req, res, next) => {
 
     next();
   } catch (err) {
-    res.status(400).json("Немате авторизација");
+    res.status(401).json("Немате авторизација");
   }
 };
 

@@ -1,15 +1,6 @@
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
-  purpose: {
-    type: String,
-    required: ["Намена е задолжително поле"],
-  },
-  realEstateType: {
-    type: String,
-    required: ["Тип е задолжително поле"],
-  },
-  price: String,
   title: {
     type: String,
     required: ["Наслов е задолжително поле"],
@@ -25,18 +16,44 @@ const postSchema = new mongoose.Schema({
     required: ["Опис е задолжително поле"],
     maxLength: [1000, "Полето може да содржи максимум 1000 карактери"],
   },
+  price: {
+    type: [Number, "Mora da bide broj"],
+  },
+  purpose: {
+    type: String,
+    required: ["Намена е задолжително поле"],
+  },
+  realEstateType: {
+    type: String,
+    required: ["Тип е задолжително поле"],
+  },
   specs: {
     bedrooms: String,
     baths: String,
     area: String,
+    balcony: String,
+    parking: Boolean,
   },
   location: {
-    city: String,
+    city: {
+      type: String,
+      required: true,
+    },
     settlement: String,
     street: String,
+    streetNumber: String,
   },
-  contactNumber: String,
-  userId: {
+  contactNumber: {
+    type: String,
+    required: ["Контакт број е задолжително поле"],
+  },
+  images: [
+    {
+      imgUrl: String,
+      publicId: String,
+    },
+  ],
+  user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
   },

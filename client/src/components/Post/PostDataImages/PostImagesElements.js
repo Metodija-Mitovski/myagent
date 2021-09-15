@@ -72,6 +72,13 @@ export const RemFromUpload = styled.button`
 `;
 
 export const ButtonWrapper = styled.div`
+  margin-right: 2rem;
+`;
+
+export const ButtonErrorHolder = styled.div`
+  width: 25rem;
   display: flex;
-  padding-left: 8.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 9rem;
 `;

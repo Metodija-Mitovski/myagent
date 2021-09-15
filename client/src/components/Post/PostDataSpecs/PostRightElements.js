@@ -65,10 +65,10 @@ export const DataRightMap = styled.div`
 `;
 
 export const DataRightBottom = styled.div`
-  margin-top: 2.3rem;
   display: grid;
   grid-template-columns: repeat(2, 18rem);
   grid-column-gap: 3rem;
   grid-row-gap: 0.5rem;
   align-items: center;
+  margin-bottom: 2rem;
 `;
