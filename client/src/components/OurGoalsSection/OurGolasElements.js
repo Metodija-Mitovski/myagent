@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Link as LinkR } from "react-router-dom";
 
 export const OurGoalsSection = styled.section`
-  padding: 5rem 0;
+  margin-top: 5rem;
+  padding-bottom: 4rem;
 `;
 
 export const OurGolasMain = styled.main`

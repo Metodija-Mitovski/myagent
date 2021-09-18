@@ -35,3 +35,17 @@ module.exports.patch_addImages = async (req, res) => {
     res.status(400).json(error);
   }
 };
+
+module.exports.get_latestPosts = async (req, res) => {
+  try {
+    const latestPosts = await Post.find()
+      .sort({ createdAt: "desc" })
+      .populate({ path: "user", select: "firstName lastName profileImg -_id" });
+
+    if (!latestPosts) throw new Error();
+
+    res.status(200).json(latestPosts);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
