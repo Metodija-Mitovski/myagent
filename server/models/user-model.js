@@ -6,12 +6,12 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      maxLength: [30, "Максималниот број на карактери е 30"],
+      maxLength: [15, "Максималниот број на карактери е 15"],
       required: true,
     },
     lastName: {
       type: String,
-      maxLength: [30, "Максималниот број на карактери е 30"],
+      maxLength: [15, "Максималниот број на карактери е 15"],
       required: true,
     },
     email: {

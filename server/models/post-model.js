@@ -43,6 +43,10 @@ const postSchema = new mongoose.Schema(
       settlement: String,
       street: String,
       streetNumber: String,
+      mapLocation: {
+        lat: Number,
+        lng: Number,
+      },
     },
     contactNumber: {
       type: String,

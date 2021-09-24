@@ -1,3 +1,5 @@
+const path = require("path");
+require("dotenv");
 const cloudinary = require("cloudinary").v2;
 
 // configure cloudinary

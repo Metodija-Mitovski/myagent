@@ -3,7 +3,7 @@ const errorHandler = require("../errors/error-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const cloudinary = require("../utils/cloudinary");
+const cloudinary = require("../cloudinary");
 
 module.exports.post_signUpUser = async (req, res) => {
   try {
@@ -44,9 +44,12 @@ module.exports.post_loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res
-      .status(200)
-      .json({ user: { firstName: user.firstName, lastName: user.lastName } });
+    res.status(200).json({
+      user: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+      },
+    });
   } catch (error) {
     const errData = errorHandler.userError(error);
     res.status(400).json(errData);
@@ -111,7 +114,7 @@ module.exports.get_currentUser = async (req, res) => {
 
   try {
     const user = await User.findById(userId).select(
-      "firstName lastName email profileImg -_id"
+      "firstName lastName email profileImg"
     );
 
     if (!user) throw new Error();
@@ -124,11 +127,14 @@ module.exports.get_currentUser = async (req, res) => {
 module.exports.delete_profileImg = async (req, res) => {
   const userId = req.userId;
   const imgId = req.params.id;
+  console.log(imgId);
 
   try {
     const user = await User.findById(userId);
 
-    const imgDelete = await cloudinary.uploader.destroy(imgId);
+    const imgDelete = await setCloud.uploader.destroy(imgId);
+
+    console.log(imgDelete);
     if (imgDelete.result === "ok") {
       user.profileImg = "";
       user.profileImg.id = "";
@@ -138,6 +144,7 @@ module.exports.delete_profileImg = async (req, res) => {
       throw new Error("Грешка");
     }
   } catch (error) {
+    console.log(error);
     res.status(400).send(error.message);
   }
 };

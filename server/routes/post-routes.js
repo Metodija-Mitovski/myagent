@@ -10,11 +10,21 @@ router.post("/newpost", isAuth, postController.post_addNewPost);
 // add images
 router.patch("/images/:id", isAuth, postController.patch_addImages);
 
+// add to wish list
+router.post("/wish-list/:id", isAuth, postController.post_addToWishList);
+
+// get  wish list
+router.get("/wish-list/:id", isAuth, postController.get_WishList);
+
 //get latest posts
 router.get("/latest", postController.get_latestPosts);
 
+//get related posts
+router.get("/related", postController.get_RelatedPosts);
+
+// get single post
+router.get("/:id", postController.get_singlePost);
 // update post
-// get post
 // get multiple posts
 //delete post
 
