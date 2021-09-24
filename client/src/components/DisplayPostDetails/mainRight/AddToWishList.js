@@ -9,7 +9,7 @@ import Loader from "../../Loader/Loader";
 const AddToWishList = () => {
   const { postData } = useSelector((state) => state.singlePost);
   const user = useSelector((state) => state.user);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [infoMsg, setInfoMsg] = useState("");
   const [isInWishList, setIsInWishList] = useState(false);
 
