@@ -1,8 +1,16 @@
 import PropTypes from "prop-types";
 
-import { MainRight, DataRightMap, DataRightBottom } from "./PostRightElements";
+/// components
+import {
+  MainRight,
+  DataRightMap,
+  DataRightBottom,
+  MapInstructionsHolder,
+  MapHolder,
+} from "./PostRightElements";
 import { Wrapper, ErrMsg } from "./PostLeftElements";
 import SelectCities from "../../QuerySection/SelectCities";
+import Map from "./Map";
 
 const PostRight = (props) => {
   const { postData, setPostData, errMsg } = props;
@@ -12,7 +20,11 @@ const PostRight = (props) => {
       <DataRightBottom>
         <Wrapper>
           <label>Одбери град:</label>
-          <SelectCities post={true} setPostData={setPostData} />
+          <SelectCities
+            post={true}
+            setPostData={setPostData}
+            setZoomCityLocation={props.setZoomCityLocation}
+          />
           {errMsg["location.city"] && <ErrMsg>Град е задолжително поле</ErrMsg>}
         </Wrapper>
 
@@ -61,9 +73,25 @@ const PostRight = (props) => {
             }}
           />
         </Wrapper>
-        {/* ----- */}
+        {/* --map-- */}
       </DataRightBottom>
-      <DataRightMap></DataRightMap>
+      <DataRightMap id="map">
+        <MapHolder>
+          <Map
+            zoomCityLocation={props.zoomCityLocation}
+            fromAddPost={true}
+            postData={postData}
+            setPostData={setPostData}
+          />
+        </MapHolder>
+
+        <MapInstructionsHolder>
+          <p>
+            *Со клик на мапата на локацијата, може да ја додадете точната
+            локација на недвижноста
+          </p>
+        </MapInstructionsHolder>
+      </DataRightMap>
     </MainRight>
   );
 };
@@ -72,6 +100,8 @@ PostRight.propTypes = {
   postData: PropTypes.object,
   setPostData: PropTypes.func,
   errMsg: PropTypes.object,
+  zoomCityLocation: PropTypes.object,
+  setZoomCityLocation: PropTypes.func,
 };
 
 export default PostRight;

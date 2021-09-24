@@ -1,4 +1,5 @@
 export const initState = {
+  _id: "",
   firstName: "",
   lastName: "",
   profileImg: {
@@ -15,6 +16,7 @@ const userReducer = (state = initState, action) => {
     case "GET_USER_SUCCESS":
       return {
         ...state,
+        _id: action.payload._id,
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         profileImg: action.payload.profileImg,

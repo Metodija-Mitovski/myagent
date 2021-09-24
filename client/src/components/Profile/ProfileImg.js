@@ -98,7 +98,8 @@ const ProfileImg = () => {
 
       throw new Error("Грешка, обидете се повторно");
     } catch (error) {
-      setErrorMsg(error.message);
+      console.log(error.response);
+      // setErrorMsg(error.message);
       setIsFetching(false);
     }
   };

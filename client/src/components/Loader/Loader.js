@@ -40,8 +40,8 @@ const Holder = styled.div`
     rgba(255, 255, 255, 0) 42%
   );
   position: relative;
-  -webkit-animation: load3 1.4s infinite linear;
-  animation: load3 1.4s infinite linear;
+  -webkit-animation: ${RotateAnimation} 1.4s infinite linear;
+  animation: ${RotateAnimation} 1.4s infinite linear;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);

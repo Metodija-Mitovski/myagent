@@ -1,7 +1,7 @@
 import NavBar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import PageDesc from "../components/PageDesc";
-import PostData from "../components/Post/PostData";
+import PostData from "../components/AddPost/PostData";
 
 const CreatePost = () => {
   return (

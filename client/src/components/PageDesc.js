@@ -1,6 +1,6 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
 import { GiHouse } from "react-icons/gi";
 import { IoIosArrowForward } from "react-icons/io";
 import indoorPlan from "../static/images/indoor-plan.png";
@@ -102,6 +102,10 @@ const PageDesc = (props) => {
       </Wrapper>
     </RegisterLoginSection>
   );
+};
+
+PageDesc.propTypes = {
+  page: PropTypes.object.isRequired,
 };
 
 export default PageDesc;

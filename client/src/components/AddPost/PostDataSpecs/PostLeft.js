@@ -70,8 +70,8 @@ const PostLeft = (props) => {
             }}
           >
             <Option value="">избери намена</Option>
-            <Option value="sale">продажба</Option>
-            <Option value="rent">изнајмување</Option>
+            <Option value="продажба">продажба</Option>
+            <Option value="изнајмување">изнајмување</Option>
           </Select>
           {errMsg.purpose && <ErrMsg>{errMsg.purpose}</ErrMsg>}
         </Wrapper>
@@ -85,9 +85,9 @@ const PostLeft = (props) => {
             }}
           >
             <Option value="">избери тип</Option>
-            <Option value="apartment">стан</Option>
-            <Option value="house">куќа</Option>
-            <Option value="studio">гарсоњера</Option>
+            <Option value="стан">стан</Option>
+            <Option value="куќа">куќа</Option>
+            <Option value="гарсоњера">гарсоњера</Option>
           </Select>
           {errMsg.realEstateType && <ErrMsg>{errMsg.realEstateType}</ErrMsg>}
           {/* --- */}

@@ -19,6 +19,12 @@ const PostDataSpecs = (props) => {
     location: {},
     images: [],
   });
+
+  const [zoomCityLocation, setZoomCityLocation] = useState({
+    lat: "",
+    lng: "",
+  });
+
   const [isFetching, setIsFetching] = useState(false);
   const [isFetchSuccess, setIsFetchSuccess] = useState(false);
   const [errMsg, setErrMsg] = useState({});
@@ -75,6 +81,8 @@ const PostDataSpecs = (props) => {
         postData={postData}
         setPostData={setPostData}
         errMsg={errMsg}
+        zoomCityLocation={zoomCityLocation}
+        setZoomCityLocation={setZoomCityLocation}
       />
     </PostForm>
   );

@@ -36,9 +36,11 @@ const LatestPosts = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const maxPositionArr = splitPostsIntoChunksOfLen(latestPosts.data, 3);
-    setMaxSlidePosition(maxPositionArr.length - 1);
-    slider.current.style.transform = `translateX(${slidePosition * 100}%)`;
+    if (latestPosts.data.length > 0) {
+      const maxPositionArr = splitPostsIntoChunksOfLen(latestPosts.data, 3);
+      setMaxSlidePosition(maxPositionArr.length - 1);
+      slider.current.style.transform = `translateX(${slidePosition * 100}%)`;
+    }
   }, [slidePosition, maxSlidePosition, latestPosts.data]);
 
   return (
@@ -62,10 +64,13 @@ const LatestPosts = () => {
           <PostsCenter>
             <Slider ref={slider}>
               {/*--- single post--- */}
-              {latestPosts.data.length > 0 &&
+              {latestPosts.data.length > 0 ? (
                 latestPosts.data.map((post) => {
                   return <SinglePost key={post._id} data={post} />;
-                })}
+                })
+              ) : (
+                <h1 style={{ color: "#ff5a3c" }}>{latestPosts.errorMsg}</h1>
+              )}
 
               {/* ----------------- */}
             </Slider>

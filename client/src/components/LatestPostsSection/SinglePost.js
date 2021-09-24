@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { format } from "timeago.js";
 
 import {
   LatestPostWrapper,
@@ -22,21 +21,22 @@ import { BiBed, BiBath } from "react-icons/bi";
 import { FaVectorSquare } from "react-icons/fa";
 import { ImLocation } from "react-icons/im";
 
-// simulation images
-import noImage from "../../static/images/no-image-available.jpg";
+// images
+import noImage from "../../static/images/no-image.png";
 import noAvatar from "../../static/images/noAvatar.png";
 
 const SinglePost = ({ data }) => {
-  console.log(data);
   return (
     <LatestPostWrapper>
-      <PostLink to="/post">
+      <PostLink to={`/posts/${data._id}`}>
         <LatestPostTop>
           <PostImg
             src={data.images.length > 0 ? data.images[0].imgUrl : noImage}
           />
-          <SaleRentSpan bg={data.purpose}>
-            {data.purpose === "sale" ? "продажба" : "изнајмување"}
+          <SaleRentSpan
+            bg={data.purpose === "продажба" ? "#ff5a3c" : "#6b7f89"}
+          >
+            {data.purpose}
           </SaleRentSpan>
           <NumberOfImages>
             <FiCamera className="icon" />
@@ -81,7 +81,11 @@ const SinglePost = ({ data }) => {
 
           <MiddleLocation>
             <ImLocation className="location-icon" />
-            <span>локација:Скопје-АвтоКоманда</span>
+            <span>
+              локација:{data.location.city}
+              &nbsp;
+              {data.location.settlement && data.location.settlement}
+            </span>
           </MiddleLocation>
         </LatestPostMiddle>
 
@@ -100,7 +104,7 @@ const SinglePost = ({ data }) => {
             </div>
 
             <span className="phone-num">тел:{data.contactNumber}</span>
-            <span className="post-date">{format(data.createdAt)}</span>
+            <span className="post-date">{data.updatedAt.substring(0, 10)}</span>
           </BottomData>
         </LatestPostBottom>
       </PostLink>

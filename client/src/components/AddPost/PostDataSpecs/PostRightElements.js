@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 export const MainRight = styled.main`
   flex: 1;
@@ -60,8 +61,23 @@ export const FindButton = styled.button`
 
 export const DataRightMap = styled.div`
   width: 39rem;
-  height: 30rem;
-  background: gray;
+  height: 37rem;
+`;
+
+export const MapHolder = styled.div`
+  width: 100%;
+  height: 32rem;
+`;
+
+export const MapInstructionsHolder = styled.div`
+  width: 100%;
+  height: 5rem;
+  padding: 5px;
+  p {
+    font-size: 13px;
+    margin-top: 8px;
+    color: red;
+  }
 `;
 
 export const DataRightBottom = styled.div`
@@ -71,4 +87,10 @@ export const DataRightBottom = styled.div`
   grid-row-gap: 0.5rem;
   align-items: center;
   margin-bottom: 2rem;
+`;
+
+export const MarkerPin = styled(FaMapMarkerAlt)`
+  background: transparent;
+  color: red;
+  font-size: 1.5rem;
 `;

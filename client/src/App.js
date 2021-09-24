@@ -6,8 +6,9 @@ import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile";
+import PostDetailsPage from "./pages/PostDetails";
+import CreatePostPage from "./pages/CreatePost";
 import { ScrollToTop } from "./components/ReactScroll/Scroll";
-import CreatePost from "./pages/CreatePost";
 
 function App() {
   return (
@@ -24,10 +25,13 @@ function App() {
             <LoginPage />
           </Route>
           <Route path="/post/create">
-            <CreatePost />
+            <CreatePostPage />
           </Route>
           <Route path="/profile">
             <ProfilePage />
+          </Route>
+          <Route path="/posts/:id">
+            <PostDetailsPage />
           </Route>
         </Switch>
       </Router>

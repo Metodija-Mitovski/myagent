@@ -5,7 +5,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 export const LatestPostSection = styled.section`
   width: 100%;
   background: #fff;
-  margin-top: 5rem;
+  padding-top: 5rem;
   padding-bottom: 4rem;
 `;
 
@@ -54,7 +54,7 @@ export const SaleRentSpan = styled.span`
   top: 0;
   right: 0;
   padding: 5px 8px;
-  background: ${(props) => (props.bg === "sale" ? "#6bd14b" : "#ff5050")};
+  background: ${(props) => props.bg};
   color: #fff;
   font-size: 14px;
   font-family: "Roboto";
