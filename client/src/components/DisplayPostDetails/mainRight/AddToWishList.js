@@ -75,7 +75,7 @@ const AddToWishList = () => {
           return;
         }
       } catch (error) {
-        setIsFetching(true);
+        setIsFetching(false);
       }
     };
 
