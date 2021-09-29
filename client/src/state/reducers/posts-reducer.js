@@ -1,4 +1,9 @@
-const postsReducer = (state = [], action) => {
+const postsReducer = (
+  state = {
+    posts: [],
+  },
+  action
+) => {
   switch (action.type) {
     default:
       return state;

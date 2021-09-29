@@ -9,10 +9,18 @@ export const initState = {
   email: "",
   isLoggedIn: false,
   posts: [],
+  errorMsg: undefined,
+  isFetchingPosts: false,
 };
 
 const userReducer = (state = initState, action) => {
   switch (action.type) {
+    case "FETCH_START":
+      return {
+        ...state,
+        isFetchingPosts: true,
+      };
+
     case "GET_USER_SUCCESS":
       return {
         ...state,
@@ -40,6 +48,38 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         ...initState,
+      };
+
+    case "GET_MY_POSTS_SUCCESS":
+      return {
+        ...state,
+        posts: action.payload,
+        errorMsg: undefined,
+        isFetchingPosts: false,
+      };
+
+    case "GET_MY_POSTS_FAILURE":
+      return {
+        ...state,
+        posts: [],
+        errorMsg: action.payload,
+        isFetchingPosts: false,
+      };
+
+    case "DELETE_POST_SUCCESS":
+      const posts = state.posts.filter((post) => post._id !== action.payload);
+      return {
+        ...state,
+        posts: posts,
+        isFetchingPosts: false,
+        errorMsg: undefined,
+      };
+
+    case "DELETE_POST_FAILURE":
+      return {
+        ...state,
+        isFetchingPosts: false,
+        errorMsg: action.payload,
       };
 
     default:

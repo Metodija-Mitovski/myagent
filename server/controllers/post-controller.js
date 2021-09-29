@@ -3,6 +3,7 @@ const User = require("../models/user-model");
 const { postError } = require("../errors/error-handler");
 const mongoose = require("mongoose");
 const WishList = require("../models/wish-list-model");
+const cloudinary = require("../cloudinary");
 
 module.exports.post_addNewPost = async (req, res) => {
   const newPost = req.body;
@@ -128,5 +129,42 @@ module.exports.get_WishList = async (req, res) => {
     }
   } catch (error) {
     res.status(400).send(error);
+  }
+};
+
+module.exports.get_MyPosts = async (req, res) => {
+  const userId = req.userId;
+
+  try {
+    const myPosts = await Post.find({ user: userId }).select(
+      "images title price"
+    );
+
+    if (!myPosts) throw new Error();
+    res.status(200).json(myPosts);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json(error);
+  }
+};
+
+module.exports.delete_Post = async (req, res) => {
+  const postId = req.params.id;
+
+  try {
+    const post = await Post.findOne({ _id: postId });
+
+    if (post.images.length > 0) {
+      const imgIds = post.images.map((img) => img.publicId);
+      cloudinary.api.delete_resources(imgIds, (error, result) => {
+        if (error) {
+          throw new Error();
+        }
+      });
+    }
+    await Post.deleteOne({ _id: postId });
+    res.status(200).json({ message: "delete-success" });
+  } catch (error) {
+    res.status(400).json(error);
   }
 };

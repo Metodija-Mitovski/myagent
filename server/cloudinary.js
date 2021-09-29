@@ -1,5 +1,9 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+console.log(process.env.CLOUD_NAME);
+console.log(process.env.USER_SECRET);
 const path = require("path");
-require("dotenv");
 const cloudinary = require("cloudinary").v2;
 
 // configure cloudinary

@@ -127,14 +127,12 @@ module.exports.get_currentUser = async (req, res) => {
 module.exports.delete_profileImg = async (req, res) => {
   const userId = req.userId;
   const imgId = req.params.id;
-  console.log(imgId);
 
   try {
     const user = await User.findById(userId);
 
-    const imgDelete = await setCloud.uploader.destroy(imgId);
+    const imgDelete = await cloudinary.uploader.destroy(imgId);
 
-    console.log(imgDelete);
     if (imgDelete.result === "ok") {
       user.profileImg = "";
       user.profileImg.id = "";

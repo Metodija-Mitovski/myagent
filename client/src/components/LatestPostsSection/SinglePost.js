@@ -34,7 +34,7 @@ const SinglePost = ({ data }) => {
             src={data.images.length > 0 ? data.images[0].imgUrl : noImage}
           />
           <SaleRentSpan
-            bg={data.purpose === "продажба" ? "#ff5a3c" : "#6b7f89"}
+            bg={data.purpose === "продажба" ? "#ff5a3c" : "#0f408a"}
           >
             {data.purpose}
           </SaleRentSpan>

@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       required: ["Наслов е задолжително поле"],
-      maxLength: [30, "Полето може да содржи максимум 30 карактери"],
+      maxLength: [40, "Полето може да содржи максимум 30 карактери"],
     },
     shortDesc: {
       type: String,

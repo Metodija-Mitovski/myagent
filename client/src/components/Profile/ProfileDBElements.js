@@ -20,6 +20,7 @@ export const MainLeft = styled.div`
 `;
 
 export const MainRight = styled.div`
+  max-width: 70%;
   flex: 2;
   margin: 3rem 0 0 4rem;
 `;
