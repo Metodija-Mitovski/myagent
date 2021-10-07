@@ -37,7 +37,10 @@ const MyPost = ({
         </TitlePriceWrapper>
       </PostLink>
       <ButtonWrapper>
-        <PostButton edit={true}>едитирај</PostButton>
+        <PostButton edit={true} onClick={() => {}}>
+          едитирај
+        </PostButton>
+
         <PostButton edit={false} onClick={() => openModal(id)}>
           избриши
         </PostButton>

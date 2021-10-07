@@ -27,12 +27,14 @@ const MyPosts = () => {
     (state) => state.user
   );
 
+  const state = useSelector((state) => state);
+  console.log(state);
+
   const openModal = (id) => {
     setModal(true);
     setModalElement(id);
   };
 
-  // optimaze call only on inital render
   const getPosts = useMemo(() => {
     return dispatch(getMyPosts());
   }, [dispatch]);

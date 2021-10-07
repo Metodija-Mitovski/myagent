@@ -33,6 +33,9 @@ function App() {
           <Route path="/posts/:id">
             <PostDetailsPage />
           </Route>
+          <Route path="/edit/:id">
+            <CreatePostPage />
+          </Route>
         </Switch>
       </Router>
       <ScrollToTop />

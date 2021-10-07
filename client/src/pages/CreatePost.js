@@ -7,7 +7,12 @@ const CreatePost = () => {
   return (
     <>
       <NavBar />
-      <PageDesc page={{ titleBig: "ПОСТ", titleSm: "нов пост" }} />
+      <PageDesc
+        page={{
+          titleBig: "ПОСТ",
+          titleSm: "нов пост",
+        }}
+      />
       <PostData />
       <Footer />
     </>
