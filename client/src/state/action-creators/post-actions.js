@@ -1,4 +1,5 @@
 import axios from "axios";
+import postConstants from "../constants/postsConstants";
 
 export const getLatestPosts = () => {
   return async (dispatch) => {
