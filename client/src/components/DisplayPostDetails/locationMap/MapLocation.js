@@ -4,7 +4,9 @@ import Map from "../../AddPost/PostDataSpecs/Map";
 // components
 
 const MapLocation = () => {
-  const location = useSelector((state) => state.singlePost.postData.location);
+  const location = useSelector(
+    (state) => state.postsReducer.singlePost.location
+  );
 
   return (
     <>

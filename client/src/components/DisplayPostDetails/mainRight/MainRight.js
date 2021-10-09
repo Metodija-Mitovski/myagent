@@ -20,7 +20,7 @@ import LoaderBig from "../../Loader/LoaderBig";
 import noAvatar from "../../../static/images/noAvatar.png";
 
 const MainRight = ({ showModal }) => {
-  const { postData } = useSelector((state) => state.singlePost);
+  const post = useSelector((state) => state.postsReducer.singlePost);
   const user = useSelector((state) => state.user);
 
   const [relatedPosts, setRelatedPosts] = useState([]);
@@ -30,7 +30,7 @@ const MainRight = ({ showModal }) => {
     const getRelatedPosts = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/posts/related?location=${postData.location.city}&realEstateType=${postData.realEstateType}&purpose=${postData.purpose}&id=${postData._id}`
+          `http://localhost:5000/posts/related?location=${post.location.city}&realEstateType=${post.realEstateType}&purpose=${post.purpose}&id=${post._id}`
         );
 
         if (res.status === 200) {
@@ -46,11 +46,11 @@ const MainRight = ({ showModal }) => {
       }
     };
     getRelatedPosts();
-  }, [postData]);
+  }, [post]);
 
   return (
     <MainRightContent>
-      {user._id !== postData.user._id && <AddToWishList />}
+      {user._id !== post.user._id && <AddToWishList />}
 
       <InfoData>
         <h3>Контакт</h3>
@@ -58,18 +58,16 @@ const MainRight = ({ showModal }) => {
           <ContactImg>
             <img
               src={
-                postData.user.profileImg.url
-                  ? postData.user.profileImg.url
-                  : noAvatar
+                post.user.profileImg.url ? post.user.profileImg.url : noAvatar
               }
               alt=""
             />
           </ContactImg>
           <ContactInfo>
             <p className="name">
-              {postData.user.firstName} {postData.user.lastName}
+              {post.user.firstName} {post.user.lastName}
             </p>
-            <p className="tel">тел: {postData.contactNumber}</p>
+            <p className="tel">тел: {post.contactNumber}</p>
           </ContactInfo>
         </Contact>
       </InfoData>

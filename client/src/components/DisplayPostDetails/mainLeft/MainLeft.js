@@ -22,7 +22,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import noImage from "../../../static/images/no-image.png";
 
 const MainLeft = ({ showModal, setShowModal }) => {
-  const { postData } = useSelector((state) => state.singlePost);
+  const post = useSelector((state) => state.postsReducer.singlePost);
   const [slidePosition, setSlidePosition] = useState(0);
 
   const slider = useRef();
@@ -40,66 +40,65 @@ const MainLeft = ({ showModal, setShowModal }) => {
   }
 
   useEffect(() => {
-    if (postData.images.length > 0) {
+    if (post.images.length > 0) {
       slider.current.style.transform = `translateX(${slidePosition * 100}%)`;
     }
-  }, [slidePosition, postData.images.length]);
+  }, [slidePosition, post.images.length]);
 
   return (
     <MainLeftContent id="mainContent">
-      {/* modal */}
       {showModal && (
         <Modal
-          images={postData.images}
+          images={post.images}
           slidePosition={slidePosition}
           setShowModal={setShowModal}
           slideLeft={slideLeft}
           slideRight={slideRight}
         />
       )}
-      {/* images */}
-      <ImagesWrapper>
-        {postData.images.length > 0 ? (
-          <>
-            {" "}
-            <ImagesSlider ref={slider}>
-              {postData.images.length > 0 &&
-                postData.images.map((img) => {
-                  return (
-                    <img
-                      key={img._id}
-                      src={img.imgUrl}
-                      alt=""
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        scroll.scrollTo(300);
-                        setShowModal(true);
-                      }}
-                    />
-                  );
-                })}
-            </ImagesSlider>
-            <SlideBtnWrapper>
-              <SlideBtn onClick={() => slideLeft(postData.images)}>
-                <MdKeyboardArrowLeft className="slide-icon" />
-              </SlideBtn>
-              <SlideBtn onClick={() => slideRight(postData.images)}>
-                <MdKeyboardArrowRight className="slide-icon" />
-              </SlideBtn>
-            </SlideBtnWrapper>
-          </>
-        ) : (
-          <img src={noImage} alt="" />
-        )}
-      </ImagesWrapper>
-      {/* ---------- */}
-      {/* details */}
-      <InfoData>
-        <h3>Детали</h3>
-        <TableData />
-        <h3 style={{ marginBottom: "1rem" }}>Опис</h3>
-        <p>{postData.desc}</p>
-      </InfoData>
+
+      <>
+        <ImagesWrapper>
+          {post.images.length > 0 ? (
+            <>
+              <ImagesSlider ref={slider}>
+                {post.images.length > 0 &&
+                  post.images.map((img) => {
+                    return (
+                      <img
+                        key={img._id}
+                        src={img.imgUrl}
+                        alt=""
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          scroll.scrollTo(300);
+                          setShowModal(true);
+                        }}
+                      />
+                    );
+                  })}
+              </ImagesSlider>
+              <SlideBtnWrapper>
+                <SlideBtn onClick={() => slideLeft(post.images)}>
+                  <MdKeyboardArrowLeft className="slide-icon" />
+                </SlideBtn>
+                <SlideBtn onClick={() => slideRight(post.images)}>
+                  <MdKeyboardArrowRight className="slide-icon" />
+                </SlideBtn>
+              </SlideBtnWrapper>
+            </>
+          ) : (
+            <img src={noImage} alt="" />
+          )}
+        </ImagesWrapper>
+
+        <InfoData>
+          <h3>Детали</h3>
+          <TableData />
+          <h3 style={{ marginBottom: "1rem" }}>Опис</h3>
+          <p>{post.desc}</p>
+        </InfoData>
+      </>
     </MainLeftContent>
   );
 };

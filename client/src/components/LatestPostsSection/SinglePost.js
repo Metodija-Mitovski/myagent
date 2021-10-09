@@ -25,66 +25,62 @@ import { ImLocation } from "react-icons/im";
 import noImage from "../../static/images/no-image.png";
 import noAvatar from "../../static/images/noAvatar.png";
 
-const SinglePost = ({ data }) => {
+const SinglePost = ({ post }) => {
   return (
     <LatestPostWrapper>
-      <PostLink to={`/posts/${data._id}`}>
+      <PostLink to={`/posts/${post._id}`}>
         <LatestPostTop>
           <PostImg
-            src={data.images.length > 0 ? data.images[0].imgUrl : noImage}
+            src={post.images.length > 0 ? post.images[0].imgUrl : noImage}
           />
           <SaleRentSpan
-            bg={data.purpose === "продажба" ? "#ff5a3c" : "#0f408a"}
+            bg={post.purpose === "продажба" ? "#ff5a3c" : "#0f408a"}
           >
-            {data.purpose}
+            {post.purpose}
           </SaleRentSpan>
           <NumberOfImages>
             <FiCamera className="icon" />
-            {data.images.length > 0 ? data.images.length : 0}
+            {post.images.length > 0 ? post.images.length : 0}
           </NumberOfImages>
         </LatestPostTop>
 
         <LatestPostMiddle>
-          <span>{data.price ? `€${data.price}` : `договор`}</span>
-          <h2>{data.title}</h2>
-          <p className="short-desc">{data.shortDesc}</p>
+          <span>{post.price ? `€${post.price}` : `договор`}</span>
+          <h2>{post.title}</h2>
+          <p className="short-desc">{post.shortDesc}</p>
 
           <LatestPostDataWrapper>
-            {/* ---- */}
             <LatestPostData>
               <span>
                 <BiBed className="data-icon" />
-                {data.specs.bedrooms && data.specs.bedrooms}
+                {post.specs.bedrooms && post.specs.bedrooms}
               </span>
               <p>Спална</p>
             </LatestPostData>
-            {/* ---- */}
 
             <LatestPostData>
               <span>
                 <BiBath className="data-icon" />
-                {data.specs.baths && data.specs.baths}
+                {post.specs.baths && post.specs.baths}
               </span>
               <p>Купатило</p>
             </LatestPostData>
-            {/* ---- */}
 
             <LatestPostData>
               <span>
                 <FaVectorSquare className="data-icon" />
-                {data.specs.area && data.specs.area}
+                {post.specs.area && post.specs.area}
               </span>
               <p>м2</p>
             </LatestPostData>
-            {/* ---- */}
           </LatestPostDataWrapper>
 
           <MiddleLocation>
             <ImLocation className="location-icon" />
             <span>
-              локација:{data.location.city}
+              локација:{post.location.city}
               &nbsp;
-              {data.location.settlement && data.location.settlement}
+              {post.location.settlement && post.location.settlement}
             </span>
           </MiddleLocation>
         </LatestPostMiddle>
@@ -94,17 +90,17 @@ const SinglePost = ({ data }) => {
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
                 src={
-                  data.user.profileImg.url ? data.user.profileImg.url : noAvatar
+                  post.user.profileImg.url ? post.user.profileImg.url : noAvatar
                 }
                 alt="profilePicture"
               />{" "}
               <span>
-                {data.user.firstName} {data.user.lastName}
+                {post.user.firstName} {post.user.lastName}
               </span>
             </div>
 
-            <span className="phone-num">тел:{data.contactNumber}</span>
-            <span className="post-date">{data.updatedAt.substring(0, 10)}</span>
+            <span className="phone-num">тел:{post.contactNumber}</span>
+            <span className="post-date">{post.updatedAt.substring(0, 10)}</span>
           </BottomData>
         </LatestPostBottom>
       </PostLink>
@@ -113,7 +109,7 @@ const SinglePost = ({ data }) => {
 };
 
 SinglePost.propTypes = {
-  data: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
 };
 
 export default SinglePost;

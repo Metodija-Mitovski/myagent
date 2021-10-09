@@ -1,46 +1,199 @@
 import axios from "axios";
 import postConstants from "../constants/postsConstants";
+import api from "../../api/api";
 
-export const getLatestPosts = () => {
+export const postsActionStart = () => {
+  return {
+    type: postConstants.POSTS_ACTION_START,
+  };
+};
+
+//////////// latest posts
+
+export const getLatestPostsSuccess = (latestPosts) => {
+  return {
+    type: postConstants.GET_LATEST_POSTS_SUCCESS,
+    payload: latestPosts,
+  };
+};
+
+export const getLatestPostsFail = (error) => {
+  return {
+    type: postConstants.GET_LATEST_POSTS_FAILURE,
+    payload: error,
+  };
+};
+
+export const getLatestPostsRequest = () => {
   return async (dispatch) => {
+    dispatch(postsActionStart());
+
     try {
-      const res = await axios.get("http://localhost:5000/posts/latest");
+      const res = await axios.get(`${api.rootPost}/latest`);
 
       if (res.status === 200) {
-        dispatch({ type: "GET_LATEST_POSTS_SUCCESS", payload: res.data });
+        dispatch(getLatestPostsSuccess(res.data));
       } else {
         throw new Error();
       }
     } catch (error) {
-      dispatch({
-        type: "GET_LATEST_POSTS_FAILURE",
-        payload: "Во моментов достапни објави",
-      });
+      if (!error.response) {
+        error.message = "се случи грешка,обидете се повторно";
+        dispatch(getLatestPostsFail(error.message));
+        return;
+      }
+
+      dispatch(getLatestPostsFail(error.response.data));
     }
   };
 };
 
-export const getSinglePost = (postId) => {
+/////////////// single post
+
+export const getSinglePostSuccess = (post) => {
+  return {
+    type: postConstants.GET_SINGLE_POST_SUCCESS,
+    payload: post,
+  };
+};
+
+export const getSinglePostFail = (error) => {
+  return {
+    type: postConstants.GET_SINGLE_POST_FAILURE,
+    payload: error,
+  };
+};
+
+export const getSinglePostRequest = (postId) => {
   return async (dispatch) => {
+    dispatch(postsActionStart());
+
     try {
-      const res = await axios.get(`http://localhost:5000/posts/${postId}`);
+      const res = await axios.get(`${api.rootPost}/${postId}`);
 
       if (res.status === 200) {
-        dispatch({ type: "GET_SINGlE_POST_SUCCESS", payload: res.data });
+        dispatch(getSinglePostSuccess(res.data));
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error.response);
+
+      if (!error.response) {
+        error.message = "Се случи грешка обидете се повторно";
+        dispatch(getSinglePostFail(error.message));
         return;
       }
 
-      throw new Error("Постот не е пронајден");
+      dispatch(getSinglePostFail(error.response.data));
+    }
+  };
+};
+
+export const clearSinglePost = () => {
+  return (dispatch) => {
+    dispatch({
+      type: postConstants.CLEAR_SINGLE_POST,
+    });
+  };
+};
+
+////////////// my posts
+
+export const getMyPostsSuccess = (myPosts) => {
+  return {
+    type: postConstants.GET_MY_POSTS_SUCCESS,
+    payload: myPosts,
+  };
+};
+
+export const getMyPostsFail = (error) => {
+  return {
+    type: postConstants.GET_MY_POSTS_FAILURE,
+    payload: error,
+  };
+};
+
+export const getMyPostsRequest = () => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.get(`${api.rootPost}/my-posts`, {
+        withCredentials: true,
+      });
+
+      if (res.status === 200) {
+        dispatch(getMyPostsSuccess(res.data));
+        return;
+      }
+
+      throw new Error("грешка, обдете се повторно");
     } catch (error) {
       if (!error.response) {
-        dispatch({ type: "GET_SINGLE_POST_FAILURE", payload: error.message });
+        dispatch(getMyPostsFail(error.message));
+        return;
+      } else {
+        dispatch(getMyPostsFail(error.response.data));
+      }
+    }
+  };
+};
+
+//////////// delete post
+
+export const deletePostSuccess = (id) => {
+  return {
+    type: postConstants.DELETE_POST_SUCCESS,
+    payload: id,
+  };
+};
+
+export const deletePostFail = (error) => {
+  return {
+    type: postConstants.DELETE_POST_FAILURE,
+    payload: error,
+  };
+};
+
+export const deletePostRequest = (postId) => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.delete(`${api.rootPost}/${postId}`, {
+        withCredentials: true,
+      });
+
+      if (res.status === 204) {
+        dispatch(deletePostSuccess(res.data.id));
         return;
       }
 
-      dispatch({
-        type: "GET_SINGLE_POST_FAILURE",
-        payload: error.response.data,
-      });
+      throw new Error("грешка обидете се повторно");
+    } catch (error) {
+      if (!error.response) {
+        dispatch(deletePostFail(error.message));
+        return;
+      }
+
+      dispatch(deletePostFail(error.response.data));
     }
+  };
+};
+
+///////////// related posts
+
+export const getRelatedPostsSuccess = (posts) => {
+  return {
+    type: postConstants.GET_RELATED_POSTS_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const getRelatedPostsFail = (error) => {
+  return {
+    type: postConstants.GET_RELATED_POSTS_FAIL,
+    payload: error,
   };
 };

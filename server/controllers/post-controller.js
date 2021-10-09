@@ -163,7 +163,7 @@ module.exports.delete_Post = async (req, res) => {
       });
     }
     await Post.deleteOne({ _id: postId });
-    res.status(200).json({ message: "delete-success" });
+    res.status(204).json({ message: "delete-success", id: post._id });
   } catch (error) {
     res.status(400).json(error);
   }

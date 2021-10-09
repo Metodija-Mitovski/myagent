@@ -12,14 +12,16 @@ import {
 } from "./LatestPostElements";
 import { Title } from "../Globals/Globals";
 
-import { getLatestPosts } from "../../state/action-creators/post-actions";
+import { getLatestPostsRequest } from "../../state/action-creators/post-actions";
 
 const LatestPosts = () => {
   const slider = useRef();
   const [slidePosition, setSlidePosition] = useState(0);
   const [maxSlidePosition, setMaxSlidePosition] = useState(0);
   const dispatch = useDispatch();
-  const latestPosts = useSelector((state) => state.latestPosts);
+  const latestPosts = useSelector((state) => state.postsReducer.latestPosts);
+
+  const { isFetching, errorMsg } = useSelector((state) => state.postsReducer);
 
   function splitPostsIntoChunksOfLen(arr, len) {
     let chunks = [],
@@ -32,23 +34,22 @@ const LatestPosts = () => {
   }
 
   useEffect(() => {
-    dispatch(getLatestPosts());
+    dispatch(getLatestPostsRequest());
   }, [dispatch]);
 
   useEffect(() => {
-    if (latestPosts.data.length > 0) {
-      const maxPositionArr = splitPostsIntoChunksOfLen(latestPosts.data, 3);
+    if (latestPosts.length > 0) {
+      const maxPositionArr = splitPostsIntoChunksOfLen(latestPosts, 3);
       setMaxSlidePosition(maxPositionArr.length - 1);
       slider.current.style.transform = `translateX(${slidePosition * 100}%)`;
     }
-  }, [slidePosition, maxSlidePosition, latestPosts.data]);
+  }, [slidePosition, maxSlidePosition, latestPosts]);
 
   return (
     <>
       <LatestPostSection id="latestPosts">
         <Title>Најново на пазарот</Title>
         <PostsContainerWrapper>
-          {/* --- */}
           <LeftRightSlide>
             <SlideLeft
               onClick={() => {
@@ -60,22 +61,19 @@ const LatestPosts = () => {
               }}
             />
           </LeftRightSlide>
-          {/* ------ */}
+
           <PostsCenter>
             <Slider ref={slider}>
-              {/*--- single post--- */}
-              {latestPosts.data.length > 0 ? (
-                latestPosts.data.map((post) => {
-                  return <SinglePost key={post._id} data={post} />;
+              {latestPosts.length > 0 ? (
+                latestPosts.map((post) => {
+                  return <SinglePost key={post._id} post={post} />;
                 })
               ) : (
-                <h1 style={{ color: "#ff5a3c" }}>{latestPosts.errorMsg}</h1>
+                <h1 style={{ color: "#ff5a3c" }}>{errorMsg}</h1>
               )}
-
-              {/* ----------------- */}
             </Slider>
           </PostsCenter>
-          {/* --- */}
+
           <LeftRightSlide>
             <SlideRight
               onClick={() => {
@@ -85,7 +83,6 @@ const LatestPosts = () => {
               }}
             />
           </LeftRightSlide>
-          {/* -------- */}
         </PostsContainerWrapper>
       </LatestPostSection>
     </>

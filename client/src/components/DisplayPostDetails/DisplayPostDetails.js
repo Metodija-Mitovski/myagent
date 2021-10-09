@@ -14,36 +14,47 @@ import MainRight from "./mainRight/MainRight";
 import MapLocation from "./locationMap/MapLocation";
 import LoaderBig from "../Loader/LoaderBig";
 //
-import { getSinglePost } from "../../state/action-creators/post-actions";
+import {
+  getSinglePostRequest,
+  clearSinglePost,
+} from "../../state/action-creators/post-actions";
 
 const DisplayPostDetails = () => {
   const postId = useParams().id;
   const dispatch = useDispatch();
-  const post = useSelector((state) => state.singlePost);
+  const post = useSelector((state) => state.postsReducer.singlePost);
+  const { isFetching, errorMsg } = useSelector((state) => state.postsReducer);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    dispatch(getSinglePost(postId));
-  }, [postId, dispatch]);
+    dispatch(getSinglePostRequest(postId));
+
+    return () => {
+      clearSinglePost();
+    };
+  }, []);
 
   return (
     <DisplayPostSection id="display-post">
-      {post.isFetching ? (
+      {isFetching ? (
         <LoaderBig />
-      ) : post.errorMsg ? (
-        <h1 style={{ color: "#ff5a3c", marginBottom: "3rem" }}>
-          {post.errorMsg}
-        </h1>
+      ) : errorMsg ? (
+        <h1 style={{ color: "#ff5a3c", marginBottom: "3rem" }}>{errorMsg}</h1>
       ) : (
         <ContentWrapper>
-          <MainWrapper>
-            <MainLeft showModal={showModal} setShowModal={setShowModal} />
-            <MainRight showModal={showModal} />
-          </MainWrapper>
+          {post && (
+            <>
+              <MainWrapper>
+                <MainLeft showModal={showModal} setShowModal={setShowModal} />
 
-          <MapWrapper>
-            <MapLocation />
-          </MapWrapper>
+                <MainRight showModal={showModal} />
+              </MainWrapper>
+
+              <MapWrapper>
+                <MapLocation />
+              </MapWrapper>
+            </>
+          )}
         </ContentWrapper>
       )}
     </DisplayPostSection>

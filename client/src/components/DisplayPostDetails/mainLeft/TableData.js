@@ -3,50 +3,50 @@ import { useSelector } from "react-redux";
 import { Table } from "./MainLeftElements";
 
 const TableData = () => {
-  const { postData } = useSelector((state) => state.singlePost);
+  const post = useSelector((state) => state.postsReducer.singlePost);
 
   return (
     <Table>
       <tbody>
         <tr>
           <td>намена</td>
-          <td>{postData.purpose}</td>
+          <td>{post.purpose}</td>
         </tr>
         <tr>
           <td>цена</td>
-          <td> {postData.price ? `€${postData.price}` : "/"} </td>
+          <td> {post.price ? `€${post.price}` : "/"} </td>
         </tr>
         <tr>
           <td>тип</td>
-          <td>{postData.realEstateType}</td>
+          <td>{post.realEstateType}</td>
         </tr>
         <tr>
           <td>спални</td>
-          <td>{postData.specs.bedrooms ? postData.specs.bedrooms : "/"}</td>
+          <td>{post.specs.bedrooms ? post.specs.bedrooms : "/"}</td>
         </tr>
         <tr>
           <td>бањи</td>
-          <td>{postData.specs.baths ? postData.specs.baths : "/"}</td>
+          <td>{post.specs.baths ? post.specs.baths : "/"}</td>
         </tr>
         <tr>
           <td>балкони</td>
-          <td>{postData.specs.balcony ? postData.specs.balcony : "/"}</td>
+          <td>{post.specs.balcony ? post.specs.balcony : "/"}</td>
         </tr>
         <tr>
           <td>површина</td>
-          <td>{postData.specs.area ? `${postData.specs.area} m2` : "/"}</td>
+          <td>{post.specs.area ? `${post.specs.area} m2` : "/"}</td>
         </tr>
         <tr>
           <td>паркинг</td>
-          <td>{postData.specs.parking ? "да" : "/"}</td>
+          <td>{post.specs.parking ? "да" : "/"}</td>
         </tr>
         <tr>
           <td>локација</td>
-          <td>{postData.location.city} </td>
+          <td>{post.location.city} </td>
         </tr>
         <tr>
           <td>додадено</td>
-          <td>{postData.updatedAt.substring(0, 10)} </td>
+          <td>{post.updatedAt.substring(0, 10)} </td>
         </tr>
       </tbody>
     </Table>
