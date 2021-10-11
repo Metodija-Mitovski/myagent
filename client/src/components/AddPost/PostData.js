@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import styled from "styled-components";
 import PostDataSpecs from "./PostDataSpecs/PostDataSpecs";
 import PostNav from "./PostDataNav/PostNav";

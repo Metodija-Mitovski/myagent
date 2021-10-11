@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import axios from "axios";
 
 // components
 import {
@@ -23,30 +22,9 @@ const MainRight = ({ showModal }) => {
   const post = useSelector((state) => state.postsReducer.singlePost);
   const user = useSelector((state) => state.user);
 
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [isFetchingRelated, setIsFetchingRelated] = useState(true);
-
-  useEffect(() => {
-    const getRelatedPosts = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/posts/related?location=${post.location.city}&realEstateType=${post.realEstateType}&purpose=${post.purpose}&id=${post._id}`
-        );
-
-        if (res.status === 200) {
-          setRelatedPosts(res.data);
-          setIsFetchingRelated(false);
-          return;
-        }
-
-        throw new Error();
-      } catch (error) {
-        setRelatedPosts([]);
-        setIsFetchingRelated(false);
-      }
-    };
-    getRelatedPosts();
-  }, [post]);
+  const { relatedPosts, isFetching, relatedPostsErrMsg } = useSelector(
+    (state) => state.postsReducer
+  );
 
   return (
     <MainRightContent>
@@ -73,11 +51,11 @@ const MainRight = ({ showModal }) => {
       </InfoData>
       <RelatedPostsWrapper id="related-posts" showModal={showModal}>
         <h3>Поврзано</h3>
-        {relatedPosts.length > 0 && isFetchingRelated === false ? (
+        {relatedPosts.length > 0 && isFetching === false ? (
           relatedPosts.map((post) => {
             return <RelatedPost post={post} key={post._id} />;
           })
-        ) : isFetchingRelated ? (
+        ) : isFetching ? (
           <LoaderBig />
         ) : (
           <h1>Не се пронајдени поврзани објави</h1>

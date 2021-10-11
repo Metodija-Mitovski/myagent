@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { loginRequest } from "../../state/action-creators/user-actions";
 
 //components
 
@@ -18,44 +20,13 @@ import {
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState("");
 
-  const history = useHistory();
+  const { isFetching, errorMsg } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setIsFetching(true);
-    //clear shown errors
-    setError("");
-
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/user/login",
-        {
-          email: loginData.email,
-          password: loginData.password,
-        },
-        { withCredentials: true }
-      );
-
-      if (response.status === 200) {
-        setIsFetching(false);
-        history.push("/");
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      if (!error.response) {
-        setError("Серверска грешка, обидете се повторно");
-        setIsFetching(false);
-        return;
-      }
-
-      setError(error.response.data);
-      setIsFetching(false);
-    }
+    dispatch(loginRequest(loginData.email, loginData.password));
   };
 
   return (
@@ -84,7 +55,7 @@ const Login = () => {
                 setLoginData({ ...loginData, password: e.target.value })
               }
             />
-            <ErrorHolder>{error ? error : ""}</ErrorHolder>
+            <ErrorHolder>{errorMsg ? errorMsg : ""}</ErrorHolder>
           </DataWrapper>
           {/* --- */}
           <SubmitBtn>

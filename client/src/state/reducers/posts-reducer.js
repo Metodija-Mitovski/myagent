@@ -6,6 +6,7 @@ const initState = {
   singlePost: undefined,
   relatedPosts: [],
   errorMsg: undefined,
+  relatedPostsErrMsg: undefined,
   isFetching: false,
 };
 
@@ -91,7 +92,7 @@ const PostsReducer = (state = initState, action) => {
     case postConstants.GET_RELATED_POSTS_FAIL:
       return {
         ...state,
-        errorMsg: payload,
+        relatedPostsErrMsg: payload,
         isFetching: false,
       };
 

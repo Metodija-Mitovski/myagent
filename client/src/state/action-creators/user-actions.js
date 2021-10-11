@@ -1,5 +1,8 @@
 import axios from "axios";
+import userConstants from "../constants/userConstants";
+import api from "../../api/api";
 
+///////////////////////////////////////////////////////////////
 export const getCurrentUser = () => {
   return async (dispatch) => {
     try {
@@ -37,65 +40,91 @@ export const userLogout = () => {
     }
   };
 };
+/////////////////////////////////////////////////////
 
-export const getMyPosts = () => {
+export const userActionStart = () => {
+  return {
+    type: userConstants.USER_ACTION_START,
+  };
+};
+
+//////// login
+export const loginSuccess = (user) => {
+  return {
+    type: userConstants.POST_LOGIN_SUCCESS,
+    payload: user,
+  };
+};
+
+export const loginFailure = (error) => {
+  return {
+    type: userConstants.POST_LOGIN_FAIL,
+    payload: error,
+  };
+};
+
+export const loginRequest = (email, password) => {
   return async (dispatch) => {
-    dispatch({ type: "FETCH_START" });
-
+    dispatch(userActionStart());
     try {
-      const res = await axios.get("http://localhost:5000/posts/my-posts", {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${api.rootUser}/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
-      if (res.status === 200) {
-        dispatch({ type: "GET_MY_POSTS_SUCCESS", payload: res.data });
-        return;
+      if (response.status === 200) {
+        dispatch(loginSuccess(response.data.user));
+      } else {
+        throw new Error();
       }
-
-      throw new Error("грешка, обдете се повторно");
     } catch (error) {
       if (!error.response) {
-        dispatch({
-          type: "GET_MY_POSTS_FAILURE",
-          payload: error.message,
-        });
+        error.message = "грешка, обидете се повторно";
+        dispatch(loginFailure(error.message));
         return;
-      } else {
-        dispatch({
-          type: "GET_MY_POSTS_FAILURE",
-          payload: error.response.data,
-        });
       }
+
+      dispatch(loginFailure(error.response.data));
     }
   };
 };
 
-export const deletePost = (postId) => {
+/////// authenticate
+
+export const authenticationSuccess = (data) => {
+  return {
+    type: userConstants.AUTHENTICATION_SUCCESS,
+    payload: data,
+  };
+};
+export const authenticationFail = (error) => {
+  return {
+    type: userConstants.AUTHENTICATION_FAIL,
+    payload: error,
+  };
+};
+export const authenticationRequest = () => {
   return async (dispatch) => {
-    dispatch({ type: "FETCH_START" });
+    dispatch(userActionStart());
 
     try {
-      const res = await axios.delete(`http://localhost:5000/posts/${postId}`, {
+      const res = await axios.get(`${api.rootUser}/current`, {
         withCredentials: true,
       });
-      if (res.status === 200) {
-        dispatch({ type: "DELETE_POST_SUCCESS", payload: postId });
-        return;
-      }
-      throw new Error("грешка обидете се повторно");
-    } catch (error) {
-      if (!error.response) {
-        dispatch({
-          type: "DELETE_POST_FAILURE",
-          payload: error.message,
-        });
-        return;
-      }
 
-      dispatch({
-        type: "DELETE_POST_FAILURE",
-        payload: error.response.message,
-      });
+      if (res.status === 200) {
+        dispatch(authenticationSuccess(res.data));
+        return true;
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      dispatch(authenticationFail(error));
+      return false;
     }
   };
 };

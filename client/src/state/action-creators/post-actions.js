@@ -77,8 +77,6 @@ export const getSinglePostRequest = (postId) => {
         throw new Error();
       }
     } catch (error) {
-      console.log(error.response);
-
       if (!error.response) {
         error.message = "Се случи грешка обидете се повторно";
         dispatch(getSinglePostFail(error.message));
@@ -166,7 +164,7 @@ export const deletePostRequest = (postId) => {
       });
 
       if (res.status === 204) {
-        dispatch(deletePostSuccess(res.data.id));
+        dispatch(deletePostSuccess(postId));
         return;
       }
 
@@ -195,5 +193,26 @@ export const getRelatedPostsFail = (error) => {
   return {
     type: postConstants.GET_RELATED_POSTS_FAIL,
     payload: error,
+  };
+};
+
+export const getRelatedPostsRequest = (post) => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.get(
+        `${api.rootPost}/related?location=${post.location.city}&realEstateType=${post.realEstateType}&purpose=${post.purpose}&id=${post._id}`
+      );
+
+      if (res.status === 200) {
+        dispatch(getRelatedPostsSuccess(res.data));
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      error.message = "не се пронајдени поврзани објави";
+      dispatch(getRelatedPostsFail(error.message));
+    }
   };
 };

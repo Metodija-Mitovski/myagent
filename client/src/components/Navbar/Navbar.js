@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
@@ -9,14 +8,14 @@ import {
   NavLink,
   ScrollLink,
 } from "./NavbarElements";
+import Loader from "../Loader/Loader";
 
 import { LoginRegister, MyProfile } from "./NavBarUtils";
-import { getCurrentUser } from "../../state/action-creators/user-actions";
+
 import logo from "../../static/images/logo.png";
 
 const NavBar = (props) => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const setActiveLink = (e) => {
     const list = document.querySelector("ul");
@@ -26,10 +25,6 @@ const NavBar = (props) => {
     });
     e.target.classList.add("active");
   };
-
-  useEffect(() => {
-    dispatch(getCurrentUser());
-  }, [dispatch]);
 
   return (
     <Header>
@@ -86,13 +81,20 @@ const NavBar = (props) => {
           <li>
             <NavLink
               className="add-property-btn"
-              to={user.isLoggedIn ? "/post/create" : "/login"}
+              // to={user.isLoggedIn ? "/post/create" : "/login"}
+              to="/post/create"
             >
               Додади недвижност
             </NavLink>
           </li>
         </NavList>
-        {user.isLoggedIn ? <MyProfile user={user} /> : <LoginRegister />}
+        {user.isFetching ? (
+          <Loader />
+        ) : user.isLoggedIn ? (
+          <MyProfile user={user} />
+        ) : (
+          <LoginRegister />
+        )}
       </Nav>
     </Header>
   );

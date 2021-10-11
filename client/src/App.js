@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { authenticationRequest } from "./state/action-creators/user-actions";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 //pages
 import HomePage from "./pages/Home";
-
 import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile";
@@ -11,6 +15,12 @@ import CreatePostPage from "./pages/CreatePost";
 import { ScrollToTop } from "./components/ReactScroll/Scroll";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authenticationRequest());
+  }, [dispatch]);
+
   return (
     <>
       <Router>
@@ -24,9 +34,7 @@ function App() {
           <Route path="/login">
             <LoginPage />
           </Route>
-          <Route path="/post/create">
-            <CreatePostPage />
-          </Route>
+          <ProtectedRoute path="/post/create" component={CreatePostPage} />
           <Route path="/profile">
             <ProfilePage />
           </Route>

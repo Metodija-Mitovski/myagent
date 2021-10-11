@@ -166,6 +166,7 @@ export const DeleteBtn = styled.button`
     font-size: 2.5rem;
     color: #0f408a;
     opacity: 0.6;
+    pointer-events: none;
   }
 
   &:hover {

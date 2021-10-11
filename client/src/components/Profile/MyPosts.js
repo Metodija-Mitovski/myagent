@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getMyPosts } from "../../state/action-creators/user-actions";
+import { getMyPostsRequest } from "../../state/action-creators/post-actions";
 
 //components
 import {
@@ -23,12 +23,10 @@ const MyPosts = () => {
   const [modal, setModal] = useState(false);
   const [modalElement, setModalElement] = useState("");
   const dispatch = useDispatch();
-  const { posts, isFetchingPosts, errorMsg } = useSelector(
-    (state) => state.user
-  );
 
-  const state = useSelector((state) => state);
-  console.log(state);
+  const { myPosts, isFetching, errorMsg } = useSelector(
+    (state) => state.postsReducer
+  );
 
   const openModal = (id) => {
     setModal(true);
@@ -36,19 +34,19 @@ const MyPosts = () => {
   };
 
   const getPosts = useMemo(() => {
-    return dispatch(getMyPosts());
+    return dispatch(getMyPostsRequest());
   }, [dispatch]);
 
   useEffect(() => {
-    if (posts.length > 0) {
+    if (myPosts.length > 0) {
       slider.current.style.transform = `translateX(${slidePosition * 50}%)`;
     }
-  }, [slider, slidePosition, dispatch, posts.length]);
+  }, [slider, slidePosition, dispatch, myPosts.length]);
 
   return (
     <MyPostsWrapper>
-      {isFetchingPosts && <LoaderBig />}
-      {posts.length > 0 && (
+      {isFetching && <LoaderBig />}
+      {myPosts.length > 0 && (
         <>
           <SlideLeft
             onClick={() => {
@@ -62,7 +60,7 @@ const MyPosts = () => {
           </SlideLeft>
           <SlideCenter>
             <Slider ref={slider}>
-              {posts.map((post) => {
+              {myPosts.map((post) => {
                 return (
                   <MyPost
                     id={post._id}
@@ -81,7 +79,7 @@ const MyPosts = () => {
           </SlideCenter>
           <SlideRight
             onClick={() => {
-              if (Math.abs(slidePosition) >= posts.length - 1) {
+              if (Math.abs(slidePosition) >= myPosts.length - 1) {
                 setSlidePosition(0);
                 return;
               }
@@ -95,7 +93,7 @@ const MyPosts = () => {
         </>
       )}
 
-      {posts.length === 0 && !errorMsg && !isFetchingPosts && (
+      {myPosts.length === 0 && !errorMsg && !isFetching && (
         <h2>Нема активни постови</h2>
       )}
       {errorMsg && <h2>{errorMsg}</h2>}

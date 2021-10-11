@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { deletePost } from "../../state/action-creators/user-actions";
+import { deletePostRequest } from "../../state/action-creators/post-actions";
 
 //components
 import { ModalWrapper, DeleteBtn, CloseModal } from "./MyPostElements";
@@ -11,13 +11,19 @@ import { BiCheckDouble } from "react-icons/bi";
 
 const MyPostModal = ({ setModal, postId }) => {
   const dispatch = useDispatch();
-  const { isFetchingPosts, errorMsg } = useSelector((state) => state.user);
+
+  const { isFetching, errorMsg } = useSelector((state) => state.postsReducer);
+
   return (
     <ModalWrapper>
       <CloseModal onClick={() => setModal(false)}>X</CloseModal>
       <p>Потврди за бришење на постот</p>
-      <DeleteBtn onClick={() => dispatch(deletePost(postId))}>
-        {isFetchingPosts ? (
+      <DeleteBtn
+        onClick={() => {
+          dispatch(deletePostRequest(postId));
+        }}
+      >
+        {isFetching ? (
           <LoadSpinner />
         ) : (
           <BiCheckDouble className="check-icon" />
