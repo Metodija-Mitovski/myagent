@@ -21,7 +21,7 @@ const LatestPosts = () => {
   const dispatch = useDispatch();
   const latestPosts = useSelector((state) => state.postsReducer.latestPosts);
 
-  const { isFetching, errorMsg } = useSelector((state) => state.postsReducer);
+  const { errorMsg } = useSelector((state) => state.postsReducer);
 
   function splitPostsIntoChunksOfLen(arr, len) {
     let chunks = [],

@@ -17,7 +17,6 @@ import LoaderBig from "../Loader/LoaderBig";
 import {
   getSinglePostRequest,
   clearSinglePost,
-  getRelatedPostsRequest,
 } from "../../state/action-creators/post-actions";
 
 const DisplayPostDetails = () => {
@@ -29,11 +28,11 @@ const DisplayPostDetails = () => {
 
   useEffect(() => {
     dispatch(getSinglePostRequest(postId));
-    dispatch(getRelatedPostsRequest(post));
+
     return () => {
       clearSinglePost();
     };
-  }, []);
+  }, [dispatch, postId]);
 
   return (
     <DisplayPostSection id="display-post">

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { authenticationRequest } from "./state/action-creators/user-actions";
 import ProtectedRoute from "./pages/ProtectedRoute";
@@ -35,15 +35,12 @@ function App() {
             <LoginPage />
           </Route>
           <ProtectedRoute path="/post/create" component={CreatePostPage} />
-          <Route path="/profile">
-            <ProfilePage />
-          </Route>
+          <ProtectedRoute path="/profile" component={ProfilePage} />
+
           <Route path="/posts/:id">
             <PostDetailsPage />
           </Route>
-          <Route path="/edit/:id">
-            <CreatePostPage />
-          </Route>
+          <ProtectedRoute path="/edit/:id" component={CreatePostPage} />
         </Switch>
       </Router>
       <ScrollToTop />

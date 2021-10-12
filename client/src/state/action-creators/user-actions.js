@@ -3,23 +3,6 @@ import userConstants from "../constants/userConstants";
 import api from "../../api/api";
 
 ///////////////////////////////////////////////////////////////
-export const getCurrentUser = () => {
-  return async (dispatch) => {
-    try {
-      const res = await axios.get("http://localhost:5000/user/current", {
-        withCredentials: true,
-      });
-
-      if (res.status === 200) {
-        dispatch({ type: "GET_USER_SUCCESS", payload: res.data });
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      dispatch({ type: "GET_USER_FAILURE" });
-    }
-  };
-};
 
 export const updateUser = (userData) => {
   return (dispatch) => {

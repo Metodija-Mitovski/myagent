@@ -3,7 +3,6 @@ import { InfoWrapper } from "./DashInfoElements";
 
 const DashInfo = () => {
   const user = useSelector((state) => state.user);
-  const state = useSelector((state) => state);
 
   return (
     <InfoWrapper>

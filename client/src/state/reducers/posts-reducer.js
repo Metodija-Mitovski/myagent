@@ -3,6 +3,7 @@ import postConstants from "../constants/postsConstants";
 const initState = {
   myPosts: [],
   latestPosts: [],
+  newPost: {},
   singlePost: undefined,
   relatedPosts: [],
   errorMsg: undefined,
@@ -24,6 +25,7 @@ const PostsReducer = (state = initState, action) => {
       return {
         ...state,
         singlePost: payload,
+        errorMsg: undefined,
         isFetching: false,
       };
 
@@ -44,6 +46,7 @@ const PostsReducer = (state = initState, action) => {
       return {
         ...state,
         latestPosts: payload,
+        errorMsg: undefined,
         isFetching: false,
       };
 
@@ -58,6 +61,7 @@ const PostsReducer = (state = initState, action) => {
       return {
         ...state,
         myPosts: payload,
+        errorMsg: undefined,
         isFetching: false,
       };
 
@@ -73,6 +77,7 @@ const PostsReducer = (state = initState, action) => {
         ...state,
         myPosts: [...state.myPosts.filter((post) => post._id !== payload)],
         isFetching: false,
+        errorMsg: undefined,
       };
 
     case postConstants.DELETE_POST_FAILURE:
@@ -86,6 +91,7 @@ const PostsReducer = (state = initState, action) => {
       return {
         ...state,
         relatedPosts: payload,
+        errorMsg: undefined,
         isFetching: false,
       };
 
@@ -94,6 +100,27 @@ const PostsReducer = (state = initState, action) => {
         ...state,
         relatedPostsErrMsg: payload,
         isFetching: false,
+      };
+
+    case postConstants.ADD_POST_SUCCESS:
+      return {
+        ...state,
+        newPost: payload,
+        errorMsg: undefined,
+        isFetching: false,
+      };
+    case postConstants.ADD_POST_FAILURE:
+      return {
+        ...state,
+        errorMsg: payload,
+        isFetching: false,
+      };
+
+    case postConstants.CLEAR_ADD_POST:
+      return {
+        ...state,
+        newPost: {},
+        errorMsg: undefined,
       };
 
     default:

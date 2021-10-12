@@ -48,6 +48,43 @@ export const getLatestPostsRequest = () => {
   };
 };
 
+///////////// related posts
+
+export const getRelatedPostsSuccess = (posts) => {
+  return {
+    type: postConstants.GET_RELATED_POSTS_SUCCESS,
+    payload: posts,
+  };
+};
+
+export const getRelatedPostsFail = (error) => {
+  return {
+    type: postConstants.GET_RELATED_POSTS_FAIL,
+    payload: error,
+  };
+};
+
+export const getRelatedPostsRequest = (post) => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.get(
+        `${api.rootPost}/related?location=${post.location.city}&realEstateType=${post.realEstateType}&purpose=${post.purpose}&id=${post._id}`
+      );
+
+      if (res.status === 200) {
+        dispatch(getRelatedPostsSuccess(res.data));
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      error.message = "не се пронајдени поврзани објави";
+      dispatch(getRelatedPostsFail(error.message));
+    }
+  };
+};
+
 /////////////// single post
 
 export const getSinglePostSuccess = (post) => {
@@ -73,6 +110,7 @@ export const getSinglePostRequest = (postId) => {
 
       if (res.status === 200) {
         dispatch(getSinglePostSuccess(res.data));
+        dispatch(getRelatedPostsRequest(res.data));
       } else {
         throw new Error();
       }
@@ -138,6 +176,54 @@ export const getMyPostsRequest = () => {
   };
 };
 
+//////////// add post
+
+export const addPostSuccess = (post) => {
+  return {
+    type: postConstants.ADD_POST_SUCCESS,
+    payload: post,
+  };
+};
+
+export const addPostFail = (error) => {
+  return {
+    type: postConstants.ADD_POST_FAILURE,
+    payload: error,
+  };
+};
+
+export const addPostRequest = (postData) => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.post(`${api.rootPost}/newpost`, postData, {
+        withCredentials: true,
+      });
+
+      if (res.status === 200) {
+        dispatch(addPostSuccess(res.data));
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      if (!error.response) {
+        error.message = "грешка, обидете се повторно";
+        dispatch(addPostFail(error.message));
+        return;
+      }
+
+      dispatch(addPostFail(error.response.data));
+    }
+  };
+};
+
+export const clearAddPost = () => {
+  return (dispatch) => {
+    dispatch({ type: postConstants.CLEAR_ADD_POST });
+  };
+};
+
 //////////// delete post
 
 export const deletePostSuccess = (id) => {
@@ -176,43 +262,6 @@ export const deletePostRequest = (postId) => {
       }
 
       dispatch(deletePostFail(error.response.data));
-    }
-  };
-};
-
-///////////// related posts
-
-export const getRelatedPostsSuccess = (posts) => {
-  return {
-    type: postConstants.GET_RELATED_POSTS_SUCCESS,
-    payload: posts,
-  };
-};
-
-export const getRelatedPostsFail = (error) => {
-  return {
-    type: postConstants.GET_RELATED_POSTS_FAIL,
-    payload: error,
-  };
-};
-
-export const getRelatedPostsRequest = (post) => {
-  return async (dispatch) => {
-    dispatch(postsActionStart());
-
-    try {
-      const res = await axios.get(
-        `${api.rootPost}/related?location=${post.location.city}&realEstateType=${post.realEstateType}&purpose=${post.purpose}&id=${post._id}`
-      );
-
-      if (res.status === 200) {
-        dispatch(getRelatedPostsSuccess(res.data));
-      } else {
-        throw new Error();
-      }
-    } catch (error) {
-      error.message = "не се пронајдени поврзани објави";
-      dispatch(getRelatedPostsFail(error.message));
     }
   };
 };

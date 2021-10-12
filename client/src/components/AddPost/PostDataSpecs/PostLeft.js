@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import LoadSpinner from "../../Loader/Loader";
 import PropTypes from "prop-types";
 
@@ -13,7 +14,8 @@ import {
 } from "./PostLeftElements";
 
 const PostLeft = (props) => {
-  const { postData, setPostData, errMsg, isFetching, isFetchSuccess } = props;
+  const { postData, setPostData, isFetching, isFetchSuccess } = props;
+  const { errorMsg } = useSelector((state) => state.postsReducer);
 
   return (
     <MainLeft>
@@ -27,7 +29,9 @@ const PostLeft = (props) => {
             setPostData({ ...postData, title: e.target.value });
           }}
         />
-        {errMsg.title && <ErrMsg>{errMsg.title}</ErrMsg>}
+        {errorMsg !== undefined && errorMsg.title && (
+          <ErrMsg>{errorMsg.title}</ErrMsg>
+        )}
         {/* --- */}
         <label htmlFor="shortDesc">Краток Опис</label>
         <textarea
@@ -37,7 +41,9 @@ const PostLeft = (props) => {
             setPostData({ ...postData, shortDesc: e.target.value });
           }}
         />
-        {errMsg.shortDesc && <ErrMsg>{errMsg.shortDesc}</ErrMsg>}
+        {errorMsg !== undefined && errorMsg.shortDesc && (
+          <ErrMsg>{errorMsg.shortDesc}</ErrMsg>
+        )}
         {/* --- */}
         <label htmlFor="desc">Опис</label>
         <textarea
@@ -47,7 +53,9 @@ const PostLeft = (props) => {
             setPostData({ ...postData, desc: e.target.value });
           }}
         />
-        {errMsg.desc && <ErrMsg>{errMsg.desc}</ErrMsg>}
+        {errorMsg !== undefined && errorMsg.desc && (
+          <ErrMsg>{errorMsg.desc}</ErrMsg>
+        )}
         {/* --- */}
         <label htmlFor="price">Цена:</label>
         <input
@@ -73,7 +81,9 @@ const PostLeft = (props) => {
             <Option value="продажба">продажба</Option>
             <Option value="изнајмување">изнајмување</Option>
           </Select>
-          {errMsg.purpose && <ErrMsg>{errMsg.purpose}</ErrMsg>}
+          {errorMsg !== undefined && errorMsg.purpose && (
+            <ErrMsg>{errorMsg.purpose}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -89,7 +99,9 @@ const PostLeft = (props) => {
             <Option value="куќа">куќа</Option>
             <Option value="гарсоњера">гарсоњера</Option>
           </Select>
-          {errMsg.realEstateType && <ErrMsg>{errMsg.realEstateType}</ErrMsg>}
+          {errorMsg !== undefined && errorMsg.realEstateType && (
+            <ErrMsg>{errorMsg.realEstateType}</ErrMsg>
+          )}
           {/* --- */}
         </Wrapper>
         {/* ----- */}
@@ -179,14 +191,18 @@ const PostLeft = (props) => {
               setPostData({ ...postData, contactNumber: e.target.value });
             }}
           />
-          {errMsg.contactNumber && <ErrMsg>{errMsg.contactNumber}</ErrMsg>}
+          {errorMsg !== undefined && errorMsg.contactNumber && (
+            <ErrMsg>{errorMsg.contactNumber}</ErrMsg>
+          )}
           {/* --- */}
         </Wrapper>
         {/* ----- */}
         <AddButton className={isFetching ? "disable" : ""} type="submit">
           {isFetching ? <LoadSpinner /> : "Додади"}
         </AddButton>
-        {errMsg.serverErr && <ErrMsg>{errMsg.serverErr}</ErrMsg>}
+        {errorMsg !== undefined && errorMsg.serverErr && (
+          <ErrMsg>{errorMsg.serverErr}</ErrMsg>
+        )}
         {isFetchSuccess && (
           <p style={{ color: "#0f408a" }}>
             Успешно додаден пост може да додадете слики
@@ -200,7 +216,6 @@ const PostLeft = (props) => {
 PostLeft.propTypes = {
   postData: PropTypes.object.isRequired,
   setPostData: PropTypes.func.isRequired,
-  errMsg: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isFetchSuccess: PropTypes.bool.isRequired,
 };

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import axios from "axios";
+import api from "../../../api/api";
 
 import {
   ImagesSection,
@@ -17,7 +18,9 @@ import {
 import { AddButton } from "../PostDataSpecs/PostLeftElements";
 import LoadSpinner from "../../Loader/Loader";
 
-const PostDataImages = ({ postId }) => {
+const PostDataImages = () => {
+  const newPostId = useSelector((state) => state.postsReducer.newPost._id);
+
   const [fileImg, setFileImg] = useState([]);
   let uploadId = 0;
   const [isFetching, setIsFetching] = useState(false);
@@ -95,7 +98,7 @@ const PostDataImages = ({ postId }) => {
       if (images.length > 0) {
         try {
           const res = await axios.patch(
-            `http://localhost:5000/posts/images/${postId}`,
+            `${api.rootPost}/images/${newPostId}`,
             { images },
             { withCredentials: true }
           );
@@ -117,11 +120,11 @@ const PostDataImages = ({ postId }) => {
       }
     };
     uploadImagesToDb();
-  }, [images, history, postId]);
+  }, [images, history, newPostId]);
 
   return (
     <ImagesSection>
-      {postId ? (
+      {newPostId ? (
         <UploadWrapper>
           <label htmlFor="file" className="shareOption">
             <UploadIcon />
@@ -174,7 +177,4 @@ const PostDataImages = ({ postId }) => {
   );
 };
 
-PostDataImages.propTypes = {
-  postId: PropTypes.string.isRequired,
-};
 export default PostDataImages;

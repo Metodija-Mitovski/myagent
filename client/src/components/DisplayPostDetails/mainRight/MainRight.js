@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 // components
@@ -22,7 +21,7 @@ const MainRight = ({ showModal }) => {
   const post = useSelector((state) => state.postsReducer.singlePost);
   const user = useSelector((state) => state.user);
 
-  const { relatedPosts, isFetching, relatedPostsErrMsg } = useSelector(
+  const { relatedPosts, isFetching } = useSelector(
     (state) => state.postsReducer
   );
 

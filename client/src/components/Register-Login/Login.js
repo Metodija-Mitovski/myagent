@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { loginRequest } from "../../state/action-creators/user-actions";
 
 //components

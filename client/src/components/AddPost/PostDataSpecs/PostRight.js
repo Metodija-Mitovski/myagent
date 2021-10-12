@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 /// components
 import {
@@ -13,7 +14,8 @@ import SelectCities from "../../QuerySection/SelectCities";
 import Map from "./Map";
 
 const PostRight = (props) => {
-  const { postData, setPostData, errMsg } = props;
+  const { postData, setPostData } = props;
+  const { errorMsg } = useSelector((state) => state.postsReducer);
 
   return (
     <MainRight>
@@ -25,7 +27,9 @@ const PostRight = (props) => {
             setPostData={setPostData}
             setZoomCityLocation={props.setZoomCityLocation}
           />
-          {errMsg["location.city"] && <ErrMsg>Град е задолжително поле</ErrMsg>}
+          {errorMsg !== undefined && errorMsg["location.city"] && (
+            <ErrMsg>Град е задолжително поле</ErrMsg>
+          )}
         </Wrapper>
 
         {/* ----- */}
@@ -99,7 +103,6 @@ const PostRight = (props) => {
 PostRight.propTypes = {
   postData: PropTypes.object,
   setPostData: PropTypes.func,
-  errMsg: PropTypes.object,
   zoomCityLocation: PropTypes.object,
   setZoomCityLocation: PropTypes.func,
 };
