@@ -52,13 +52,13 @@ const confirmUpdate = async (req, res, next) => {
 const confirmDeleteAcc = async (req, res, next) => {
   const userId = req.userId;
 
-  if (!req.params.password) throw new Error("Невалиден пасворд");
+  if (!req.body.password) throw new Error("Невалиден пасворд");
 
   try {
     const user = await User.findById(userId);
 
     const isPasswordCorrect = await bcrypt.compare(
-      req.params.password,
+      req.body.password,
       user.password
     );
 

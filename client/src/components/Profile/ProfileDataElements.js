@@ -46,7 +46,6 @@ export const ButtonWrapper = styled.div`
 
   button {
     width: 100%;
-    width: ${({ pass }) => (pass ? "19rem" : "100%")};
     height: 4rem;
     color: #fff;
     cursor: ${({ updating }) => (updating ? "pointer" : "not-allowed")};

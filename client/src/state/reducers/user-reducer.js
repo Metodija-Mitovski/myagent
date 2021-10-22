@@ -18,43 +18,6 @@ const userReducer = (state = initState, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    ////////////////////////////////////////////////////////////
-    case "FETCH_START":
-      return {
-        ...state,
-        isFetchingPosts: true,
-      };
-
-    case "GET_USER_SUCCESS":
-      return {
-        ...state,
-        _id: action.payload._id,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        profileImg: action.payload.profileImg,
-        email: action.payload.email,
-        isLoggedIn: true,
-      };
-
-    case "GET_USER_FAILURE":
-      return {
-        ...state,
-        ...initState,
-      };
-
-    case "USER_UPDATE":
-      return {
-        ...state,
-        ...action.payload,
-      };
-
-    case "USER_LOGOUT":
-      return {
-        ...state,
-        ...initState,
-      };
-    ////////////////////////////////////////////////////////////////
-
     case userConstants.USER_ACTION_START:
       return {
         ...state,
@@ -96,6 +59,42 @@ const userReducer = (state = initState, action) => {
       return {
         ...state,
         ...initState,
+      };
+
+    case userConstants.UPDATE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email,
+        isFetching: false,
+        errorMsg: undefined,
+      };
+
+    case userConstants.UPDATE_ACCOUNT_FAIL:
+      return {
+        ...state,
+        errorMsg: payload,
+        isFetching: false,
+      };
+
+    case userConstants.LOG_OUT:
+      return {
+        ...state,
+        ...initState,
+      };
+
+    case userConstants.DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        ...initState,
+      };
+
+    case userConstants.DELETE_ACCOUNT_FAIL:
+      return {
+        ...state,
+        errorMsg: payload,
+        isFetching: false,
       };
 
     default:

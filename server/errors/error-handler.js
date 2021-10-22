@@ -1,7 +1,7 @@
 module.exports.userError = (error) => {
   if (error.code === 11000) {
     return {
-      message: "Корисникот со овој и-мејл е претходно регистриран",
+      message: "Невалиден и-мејл",
     };
   }
 

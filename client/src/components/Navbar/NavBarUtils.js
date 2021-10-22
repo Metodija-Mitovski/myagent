@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import { userLogout } from "../../state/action-creators/user-actions";
 
 import {
@@ -89,4 +90,8 @@ export const MyProfile = ({ user }) => {
       </OptionList>
     </NameOptionWrapper>
   );
+};
+
+MyProfile.propTypes = {
+  user: PropTypes.object,
 };

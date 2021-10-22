@@ -23,13 +23,9 @@ router.get("/logout", isAuth, userController.get_logoutUser);
 router.patch("/update", isAuth, confirmUpdate, userController.patch_updateUser);
 
 //delete user
-router.delete(
-  "/delete/:password",
-  isAuth,
-  confirmDeleteAcc,
-  userController.delete_User
-);
+router.delete("/delete/", isAuth, confirmDeleteAcc, userController.delete_User);
 
+//delete profile img
 router.delete("/profile-img/:id", isAuth, userController.delete_profileImg);
 
 module.exports = router;

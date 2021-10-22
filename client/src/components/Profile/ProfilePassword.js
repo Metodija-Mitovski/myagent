@@ -3,10 +3,12 @@ import {
   UserPasswordForm,
   UserDataWrapper,
   Error,
+  ButtonWrapper,
 } from "./ProfileDataElements";
 
-import ProcesBtn from "./ProcessBtn";
 import axios from "axios";
+import api from "../../api/api";
+import Loader from "../Loader/Loader";
 
 const ProfilePassword = () => {
   const [password, setPassword] = useState({
@@ -15,7 +17,6 @@ const ProfilePassword = () => {
     confirmNew: "",
   });
 
-  const [isUpdatingData, setIsupdatingData] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [infoMsg, setInfoMsg] = useState("");
 
@@ -34,7 +35,7 @@ const ProfilePassword = () => {
 
     try {
       const res = await axios.patch(
-        "http://localhost:5000/user/update",
+        `${api.rootUser}/update`,
         {
           currentPassword: password.current,
           newPassword: password.new,
@@ -90,12 +91,26 @@ const ProfilePassword = () => {
           value={password.confirmNew}
           onChange={(e) => {
             setPassword({ ...password, confirmNew: e.target.value });
-            setIsupdatingData(true);
           }}
         />
         {infoMsg && <Error>{infoMsg}</Error>}
       </UserDataWrapper>
-      <ProcesBtn isUpdatingData={isUpdatingData} isFetching={isFetching} />
+
+      {isFetching ? (
+        <ButtonWrapper>
+          <button>
+            <Loader />
+          </button>
+        </ButtonWrapper>
+      ) : password.current && password.new && password.confirmNew ? (
+        <ButtonWrapper updating={true}>
+          <button>Промени</button>
+        </ButtonWrapper>
+      ) : (
+        <ButtonWrapper>
+          <button disabled>Промени</button>
+        </ButtonWrapper>
+      )}
     </UserPasswordForm>
   );
 };

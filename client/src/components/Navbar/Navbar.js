@@ -79,11 +79,7 @@ const NavBar = (props) => {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className="add-property-btn"
-              // to={user.isLoggedIn ? "/post/create" : "/login"}
-              to="/post/create"
-            >
+            <NavLink className="add-property-btn" to="/post/create">
               Додади недвижност
             </NavLink>
           </li>

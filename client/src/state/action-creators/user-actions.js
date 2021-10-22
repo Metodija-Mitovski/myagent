@@ -2,29 +2,6 @@ import axios from "axios";
 import userConstants from "../constants/userConstants";
 import api from "../../api/api";
 
-///////////////////////////////////////////////////////////////
-
-export const updateUser = (userData) => {
-  return (dispatch) => {
-    dispatch({ type: "USER_UPDATE", payload: userData });
-  };
-};
-
-export const userLogout = () => {
-  return async (dispatch) => {
-    try {
-      await axios.get("http://localhost:5000/user/logout", {
-        withCredentials: true,
-      });
-
-      dispatch({ type: "USER_LOGOUT" });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
-/////////////////////////////////////////////////////
-
 export const userActionStart = () => {
   return {
     type: userConstants.USER_ACTION_START,
@@ -108,6 +85,110 @@ export const authenticationRequest = () => {
     } catch (error) {
       dispatch(authenticationFail(error));
       return false;
+    }
+  };
+};
+
+//// logout
+
+export const userLogout = () => {
+  return async (dispatch) => {
+    try {
+      await axios.get(`${api.rootUser}/logout`, {
+        withCredentials: true,
+      });
+
+      dispatch({ type: userConstants.LOG_OUT });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+//// update user data
+
+export const updateUser = (userData) => {
+  return (dispatch) => {
+    dispatch({ type: "USER_UPDATE", payload: userData });
+  };
+};
+
+export const updateAccDataSuccess = (data) => {
+  return {
+    type: userConstants.UPDATE_ACCOUNT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const updateAccDataFail = (error) => {
+  return {
+    type: userConstants.UPDATE_ACCOUNT_FAIL,
+    payload: error,
+  };
+};
+
+export const updateAccDataRequest = (userData) => {
+  return async (dispatch) => {
+    dispatch(userActionStart());
+
+    try {
+      const res = await axios.patch(`${api.rootUser}/update`, userData, {
+        withCredentials: true,
+      });
+
+      if (res.status === 200) {
+        dispatch(updateAccDataSuccess(res.data));
+      }
+    } catch (error) {
+      if (!error.response) {
+        error.message = "грешка, обидете се повторно";
+        dispatch(updateAccDataFail(error.message));
+        return;
+      }
+
+      dispatch(updateAccDataFail(error.response.data));
+    }
+  };
+};
+
+//// delete account
+
+export const deleteAccountSuccess = () => {
+  return {
+    type: userConstants.DELETE_ACCOUNT_SUCCESS,
+  };
+};
+export const deleteAccountFail = (error) => {
+  return {
+    type: userConstants.DELETE_ACCOUNT_FAIL,
+    payload: error,
+  };
+};
+export const deleteAccountRequest = (password) => {
+  return async (dispatch) => {
+    dispatch(userActionStart());
+
+    try {
+      const res = await axios.delete(
+        `${api.rootUser}/delete`,
+        // set body with delete req in axios sec param must be object with data
+        { data: { password }, withCredentials: true }
+      );
+
+      if (res.status === 200) {
+        dispatch(deleteAccountSuccess());
+        return;
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      if (!error.response) {
+        error.message = "грешка, обидете се повторно";
+        dispatch(deleteAccountFail(error.message));
+        return;
+      }
+
+      dispatch(deleteAccountFail(error.response.data));
     }
   };
 };

@@ -1,58 +1,42 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import ProcesBtn from "./ProcessBtn";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAccountRequest } from "../../state/action-creators/user-actions";
 
 import { InfoWrapper } from "./DashInfoElements";
 import {
   UserPasswordForm,
   UserDataWrapper,
+  ButtonWrapper,
   Error,
 } from "./ProfileDataElements";
+import Loader from "../Loader/Loader";
 
 const DeleteProfile = () => {
   const [password, setPassword] = useState("");
-  const [isUpdatingData, setIsupdatingData] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
-  const [infoMsg, setInfoMsg] = useState("");
 
-  const history = useHistory();
+  const [infoMsg, setInfoMsg] = useState("");
+  const user = useSelector((state) => state.user);
+
+  const { isFetching, errorMsg } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // clear infoMsg
     setInfoMsg("");
-    setIsFetching(true);
 
-    if (!password) {
-      setInfoMsg("Невалиден пасворд");
-      setIsFetching(false);
-      return;
-    }
-
-    try {
-      const res = await axios.delete(
-        `http://localhost:5000/user/delete/${password}`,
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (res.status === 200) {
-        setInfoMsg("Профилот е успешно деактивиран");
-        setIsFetching(false);
-        setPassword("");
-
-        setTimeout(() => {
-          history.push("/");
-        }, 1000);
-      }
-    } catch (error) {
-      setInfoMsg(error.response.data);
-      setIsFetching(false);
-    }
+    dispatch(deleteAccountRequest(password));
   };
+
+  useEffect(() => {
+    if (!user._id) {
+      setInfoMsg("Профилот е успешно деактивиран");
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    }
+  }, [setInfoMsg, user._id]);
 
   return (
     <>
@@ -75,16 +59,27 @@ const DeleteProfile = () => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              setIsupdatingData(true);
             }}
           />
-          {infoMsg && <Error>{infoMsg}</Error>}
+          {(errorMsg && <Error>{errorMsg}</Error>) ||
+            (infoMsg && <Error>{infoMsg}</Error>)}
         </UserDataWrapper>
-        <ProcesBtn
-          isUpdatingData={isUpdatingData}
-          isFetching={isFetching}
-          deactivateAcc={true}
-        />
+
+        {isFetching ? (
+          <ButtonWrapper>
+            <button>
+              <Loader />
+            </button>
+          </ButtonWrapper>
+        ) : password.length > 0 ? (
+          <ButtonWrapper updating={true}>
+            <button>Деактивирај профил</button>
+          </ButtonWrapper>
+        ) : (
+          <ButtonWrapper>
+            <button disabled>Деактивирај</button>
+          </ButtonWrapper>
+        )}
       </UserPasswordForm>
     </>
   );

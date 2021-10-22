@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import ProfilePassword from "./ProfilePassword";
 import ProcesBtn from "./ProcessBtn";
-import { updateUser } from "../../state/action-creators/user-actions";
+import { updateAccDataRequest } from "../../state/action-creators/user-actions";
 
 import {
   InfoWrapper,
@@ -14,6 +13,7 @@ import {
 
 const ProfileData = () => {
   const user = useSelector((state) => state.user);
+  const { errorMsg } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [updateUserData, setupdateUserData] = useState({
@@ -21,53 +21,12 @@ const ProfileData = () => {
     lastName: user.lastName,
     email: user.email,
   });
-  const [isUpdatingData, setIsUpdataingData] = useState(false);
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
-  const [isFetching, setIsFetching] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsFetching(true);
 
-    // clear errors
-    setErrors({
-      firstName: "",
-      lastName: "",
-      email: "",
-    });
-
-    try {
-      const res = await axios.patch(
-        "http://localhost:5000/user/update",
-        updateUserData,
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        setIsFetching(false);
-        dispatch(updateUser(res.data));
-      }
-    } catch (error) {
-      setIsFetching(false);
-      console.log(error.response);
-      setErrors({ ...errors, ...error.response.data });
-    }
+    dispatch(updateAccDataRequest(updateUserData));
   };
-
-  useEffect(() => {
-    if (user.firstName !== updateUserData.firstName) {
-      setIsUpdataingData(true);
-    } else if (user.lastName !== updateUserData.firstName) {
-      setIsUpdataingData(true);
-    } else if (user.email !== updateUserData.firstName) {
-      setIsUpdataingData(true);
-    } else {
-      setIsUpdataingData(false);
-    }
-  }, []);
 
   return (
     <InfoWrapper>
@@ -90,13 +49,12 @@ const ProfileData = () => {
               });
             }}
           />
-          {errors.firstName && <Error>{errors.firstName}</Error>}
         </UserDataWrapper>
         <UserDataWrapper>
-          <label htmlFor="name">Презиме:</label>
+          <label htmlFor="lastName">Презиме:</label>
           <input
             type="text"
-            id="name"
+            id="lastName"
             required
             value={updateUserData.lastName}
             onChange={(e) => {
@@ -106,13 +64,12 @@ const ProfileData = () => {
               });
             }}
           />
-          {errors.lastName && <Error>{errors.lastName}</Error>}
         </UserDataWrapper>
         <UserDataWrapper>
-          <label htmlFor="name">И-мејл:</label>
+          <label htmlFor="email">И-мејл:</label>
           <input
             type="email"
-            id="name"
+            id="email"
             required
             value={updateUserData.email}
             onChange={(e) => {
@@ -122,10 +79,11 @@ const ProfileData = () => {
               });
             }}
           />
-          {errors.email && <Error>{errors.email}</Error>}
+
+          {errorMsg !== undefined && <Error>{errorMsg.message}</Error>}
         </UserDataWrapper>
         {/* ----- */}
-        <ProcesBtn isUpdatingData={isUpdatingData} isFetching={isFetching} />
+        <ProcesBtn updateUserData={updateUserData} />
       </UserDataForm>
 
       <ProfilePassword />

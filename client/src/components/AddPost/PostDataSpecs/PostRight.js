@@ -92,7 +92,7 @@ const PostRight = (props) => {
         <MapInstructionsHolder>
           <p>
             *Со клик на мапата на локацијата, може да ја додадете точната
-            локација на недвижноста
+            локација на недвижноста - незадолжително
           </p>
         </MapInstructionsHolder>
       </DataRightMap>
