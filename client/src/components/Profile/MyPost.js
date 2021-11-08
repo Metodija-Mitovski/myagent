@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // components
 import {
   PostLink,
@@ -6,6 +8,7 @@ import {
   TitlePriceWrapper,
   ButtonWrapper,
   PostButton,
+  EditButton,
 } from "./MyPostElements";
 import MyPostModal from "./MyPostModal";
 
@@ -37,16 +40,18 @@ const MyPost = ({
         </TitlePriceWrapper>
       </PostLink>
       <ButtonWrapper>
-        <PostButton edit={true} onClick={() => {}}>
+        <EditButton to={`/post/edit/${id}`} onClick={() => {}}>
           едитирај
-        </PostButton>
+        </EditButton>
 
-        <PostButton edit={false} onClick={() => openModal(id)}>
-          избриши
-        </PostButton>
+        <PostButton onClick={() => openModal(id)}>избриши</PostButton>
       </ButtonWrapper>
     </Post>
   );
+};
+
+MyPost.propTypes = {
+  id: PropTypes.string.isRequired,
 };
 
 export default MyPost;

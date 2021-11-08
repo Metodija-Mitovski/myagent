@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
-import { addPostRequest } from "../../../state/action-creators/post-actions";
+import {
+  addPostRequest,
+  editPostRequest,
+} from "../../../state/action-creators/post-actions";
 
 //components
 import PostLeft from "./PostLeft";
@@ -16,24 +18,57 @@ const PostForm = styled.form`
 
 const PostDataSpecs = (props) => {
   const [postData, setPostData] = useState({
-    specs: {},
-    location: {},
+    title: "",
+    shortDesc: "",
+    desc: "",
+    price: "",
+    purpose: "",
+    realEstateType: "",
+    specs: {
+      bedrooms: "",
+      baths: "",
+      area: "",
+      balcony: "",
+      parking: "",
+    },
+    location: {
+      city: "",
+      settlement: "",
+      street: "",
+      streetNumber: "",
+      mapLocation: {
+        lat: "",
+        lng: "",
+      },
+    },
+    contactNumber: "",
     images: [],
   });
-  const { setPostSpecs } = props;
+  const { setPostSpecs, editing } = props;
   const dispatch = useDispatch();
-  const { isFetching, newPost } = useSelector((state) => state.postsReducer);
+  const { isFetching, newPost, singlePost } = useSelector(
+    (state) => state.postsReducer
+  );
+
+  const [isFetchSuccess, setIsFetchSuccess] = useState(false);
 
   const [zoomCityLocation, setZoomCityLocation] = useState({
     lat: "",
     lng: "",
   });
 
-  const [isFetchSuccess, setIsFetchSuccess] = useState(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addPostRequest(postData));
+
+    if (editing) {
+      const update = await dispatch(editPostRequest(singlePost._id, postData));
+
+      if (update) {
+        setIsFetchSuccess(true);
+      }
+    } else {
+      dispatch(addPostRequest(postData));
+    }
   };
 
   useEffect(() => {
@@ -45,6 +80,12 @@ const PostDataSpecs = (props) => {
     }
   }, [dispatch, newPost._id, setPostSpecs]);
 
+  useEffect(() => {
+    if (editing && singlePost !== undefined) {
+      setPostData(singlePost);
+    }
+  }, [singlePost, editing, dispatch]);
+
   return (
     <PostForm onSubmit={handleSubmit}>
       <PostLeft
@@ -52,12 +93,14 @@ const PostDataSpecs = (props) => {
         setPostData={setPostData}
         isFetching={isFetching}
         isFetchSuccess={isFetchSuccess}
+        editing={editing}
       />
       <PostRight
         postData={postData}
         setPostData={setPostData}
         zoomCityLocation={zoomCityLocation}
         setZoomCityLocation={setZoomCityLocation}
+        editing={editing}
       />
     </PostForm>
   );

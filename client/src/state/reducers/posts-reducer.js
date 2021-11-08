@@ -6,6 +6,7 @@ const initState = {
   newPost: {},
   singlePost: undefined,
   relatedPosts: [],
+  wishList: [],
   errorMsg: undefined,
   relatedPostsErrMsg: undefined,
   isFetching: false,
@@ -121,6 +122,20 @@ const PostsReducer = (state = initState, action) => {
         ...state,
         newPost: {},
         errorMsg: undefined,
+      };
+
+    case postConstants.EDIT_POST_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        errorMsg: undefined,
+      };
+
+    case postConstants.EDIT_POST_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMsg: payload,
       };
 
     default:

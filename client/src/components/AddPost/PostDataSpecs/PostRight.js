@@ -14,7 +14,7 @@ import SelectCities from "../../QuerySection/SelectCities";
 import Map from "./Map";
 
 const PostRight = (props) => {
-  const { postData, setPostData } = props;
+  const { postData, setPostData, editing } = props;
   const { errorMsg } = useSelector((state) => state.postsReducer);
 
   return (
@@ -38,6 +38,7 @@ const PostRight = (props) => {
           <input
             type="text"
             id="settlement"
+            value={postData.location.settlement}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -52,6 +53,7 @@ const PostRight = (props) => {
           <input
             type="text"
             id="street"
+            value={postData.location.street}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -66,6 +68,7 @@ const PostRight = (props) => {
           <input
             type="text"
             id="street-number"
+            value={postData.location.streetNumber}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -86,6 +89,7 @@ const PostRight = (props) => {
             fromAddPost={true}
             postData={postData}
             setPostData={setPostData}
+            editing={editing}
           />
         </MapHolder>
 

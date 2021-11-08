@@ -30,7 +30,7 @@ app.use("/user", userRoutes);
 app.use("/posts", postRoutes);
 
 mongoose
-  .connect("mongodb://localhost:27017/my-agent", {
+  .connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

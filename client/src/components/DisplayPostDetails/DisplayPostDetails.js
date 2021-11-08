@@ -30,7 +30,7 @@ const DisplayPostDetails = () => {
     dispatch(getSinglePostRequest(postId));
 
     return () => {
-      clearSinglePost();
+      dispatch(clearSinglePost());
     };
   }, [dispatch, postId]);
 

@@ -1,6 +1,8 @@
+import { useState } from "react";
 import GoogleMapReact from "google-map-react";
 import PropTypes from "prop-types";
 import { MarkerPin } from "./PostRightElements";
+import { useSelector } from "react-redux";
 
 const Map = ({
   zoomCityLocation,
@@ -9,7 +11,11 @@ const Map = ({
   fromAddPost,
   lat,
   lng,
+  editing,
 }) => {
+  const singlePost = useSelector((state) => state.postsReducer.singlePost);
+  const [updateMap, setUpdateMap] = useState(false);
+
   return (
     <>
       {fromAddPost ? (
@@ -32,13 +38,27 @@ const Map = ({
                 mapLocation: { lat: lat, lng: lng },
               },
             });
+
+            setUpdateMap(true);
           }}
         >
-          {postData.location.mapLocation && (
+          {editing &&
+          singlePost &&
+          singlePost.location.mapLocation.lat &&
+          singlePost.location.mapLocation.lng &&
+          !updateMap ? (
             <MarkerPin
-              lat={postData.location.mapLocation.lat}
-              lng={postData.location.mapLocation.lng}
+              lat={singlePost.location.mapLocation.lat}
+              lng={singlePost.location.mapLocation.lng}
             />
+          ) : (
+            postData.location.mapLocation.lat &&
+            postData.location.mapLocation.lng && (
+              <MarkerPin
+                lat={postData.location.mapLocation.lat}
+                lng={postData.location.mapLocation.lng}
+              />
+            )
           )}
         </GoogleMapReact>
       ) : (

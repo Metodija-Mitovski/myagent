@@ -119,7 +119,7 @@ export const PostButton = styled.button`
 
   border: none;
   border-radius: 4px;
-  background: ${(props) => (props.edit ? "#0f408a" : "#db5454")};
+  background: #db5454;
   cursor: pointer;
   color: #fff;
   padding: 0.5rem 0.7rem;
@@ -127,7 +127,27 @@ export const PostButton = styled.button`
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    background: ${(props) => (props.edit ? "#0e4eae" : "#f53131")};
+    background: #f53131;
+  }
+`;
+
+export const EditButton = styled(RLink)`
+  -webkit-box-shadow: 0px 5px 10px -3px rgba(40, 38, 48, 1);
+  -moz-box-shadow: 0px 5px 10px -3px rgba(40, 38, 48, 1);
+  box-shadow: 0px 5px 10px -3px rgba(40, 38, 48, 1);
+
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  background: #0f408a;
+  cursor: pointer;
+  color: #fff;
+  padding: 0.5rem 0.7rem;
+  font-size: 12px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: "#0e4eae";
   }
 `;
 

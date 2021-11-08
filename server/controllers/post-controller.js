@@ -24,18 +24,55 @@ module.exports.post_addNewPost = async (req, res) => {
 };
 
 module.exports.patch_addImages = async (req, res) => {
+  const userId = req.userId;
   const postId = req.params.id;
   const images = req.body.images;
-  console.log(req.body);
 
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findOne({ _id: postId, user: userId });
+
     if (!post) throw new Error();
-    post.images = images;
+
+    post.images = [...post.images, ...images];
     await post.save();
     res.status(200).json(post);
   } catch (error) {
+    console.log(error);
     res.status(400).json(error);
+  }
+};
+
+module.exports.patch_removeImages = async (req, res) => {
+  const userId = req.userId;
+  const postId = req.params.id;
+  const pubId = req.query.pub_id;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).send("Bad request");
+    }
+
+    if (userId != post.user) {
+      return res.status(400).send("Bad request");
+    }
+
+    // remove from cloud
+    let imgDelete = await cloudinary.uploader.destroy(pubId);
+
+    if (imgDelete.result !== "ok") {
+      throw new Error("Failed to delete image");
+    }
+    //
+
+    post.images = post.images.filter((img) => img.publicId != pubId);
+
+    await post.save();
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(400).send(error);
   }
 };
 
@@ -57,12 +94,10 @@ module.exports.get_singlePost = async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const post = await Post.findById(postId)
-      .select("-title -shortDesc")
-      .populate({
-        path: "user",
-        select: "firstName lastName profileImg",
-      });
+    const post = await Post.findById(postId).populate({
+      path: "user",
+      select: "firstName lastName profileImg",
+    });
     if (!post) throw new Error("Постот не е пронајден");
 
     res.status(200).json(post);
@@ -95,23 +130,26 @@ module.exports.post_addToWishList = async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const wishListPost = await WishList.findOne({ user: userId, post: postId });
-    if (wishListPost) {
-      await WishList.deleteOne({ _id: wishListPost._id });
-      res.status(202).send("постот е избришан од листа на желби");
-      return;
-    }
-
     await WishList.create({ user: userId, post: postId });
-
-    res.status(200).send("успешно додавање во листа на желби");
+    res.status(201).send("успешно додавање во листа на желби");
   } catch (error) {
-    if (error.name === "CastError") {
-      res.status(404).send("не е пронајден");
-      return;
-    }
+    res.status(500).send(error);
+  }
+};
 
-    res.status(400).send("серверска грешка");
+module.exports.delete_fromWishList = async (req, res) => {
+  const userId = req.userId;
+  const postId = req.params.id;
+
+  try {
+    const post = await WishList.findOne({ user: userId, post: postId });
+
+    if (!post) return res.status(404).send("Not found");
+
+    await WishList.deleteOne({ _id: post._id });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).send(error);
   }
 };
 
@@ -125,7 +163,7 @@ module.exports.get_WishList = async (req, res) => {
     if (wishListPost) {
       res.status(200).send("постои во листа на желби");
     } else {
-      res.status(204).send("не постои во листа на желби");
+      res.status(404).send("не постои во листа на желби");
     }
   } catch (error) {
     res.status(400).send(error);
@@ -143,16 +181,16 @@ module.exports.get_MyPosts = async (req, res) => {
     if (!myPosts) throw new Error();
     res.status(200).json(myPosts);
   } catch (error) {
-    console.log(error);
     res.status(404).json(error);
   }
 };
 
 module.exports.delete_Post = async (req, res) => {
   const postId = req.params.id;
+  const userId = req.userId;
 
   try {
-    const post = await Post.findOne({ _id: postId });
+    const post = await Post.findOne({ _id: postId, user: userId });
 
     if (post.images.length > 0) {
       const imgIds = post.images.map((img) => img.publicId);
@@ -162,9 +200,27 @@ module.exports.delete_Post = async (req, res) => {
         }
       });
     }
-    await Post.deleteOne({ _id: postId });
+    await Post.deleteOne({ _id: postId, user: userId });
     res.status(204).json({ message: "delete-success", id: post._id });
   } catch (error) {
     res.status(400).json(error);
+  }
+};
+
+module.exports.patch_updatePost = async (req, res) => {
+  const postId = req.params.id;
+  const userId = req.userId;
+
+  try {
+    const post = await Post.updateOne({ _id: postId, user: userId }, req.body);
+
+    if (!post.n) {
+      return res.status(404).send("Постот не е пронајден");
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.log(error);
+    res.send(error);
   }
 };

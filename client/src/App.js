@@ -12,6 +12,7 @@ import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile";
 import PostDetailsPage from "./pages/PostDetails";
 import CreatePostPage from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
 import { ScrollToTop } from "./components/ReactScroll/Scroll";
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
           </Route>
           <ProtectedRoute path="/post/create" component={CreatePostPage} />
           <ProtectedRoute path="/profile" component={ProfilePage} />
-
+          <ProtectedRoute path="/post/edit/:id" component={EditPost} />
           <Route path="/posts/:id">
             <PostDetailsPage />
           </Route>

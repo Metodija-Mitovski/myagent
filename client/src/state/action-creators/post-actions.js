@@ -224,7 +224,48 @@ export const clearAddPost = () => {
   };
 };
 
-//////////// delete post
+//// edit post
+export const editPostSuccess = () => {
+  return {
+    type: postConstants.EDIT_POST_SUCCESS,
+  };
+};
+
+export const editPostFail = (error) => {
+  return {
+    type: postConstants.EDIT_POST_FAILURE,
+    payload: error,
+  };
+};
+
+export const editPostRequest = (id, data) => {
+  return async (dispatch) => {
+    dispatch(postsActionStart());
+
+    try {
+      const res = await axios.patch(`${api.rootPost}/edit/${id}`, data, {
+        withCredentials: true,
+      });
+
+      if (res.status === 204) {
+        dispatch(editPostSuccess());
+        return true;
+      }
+
+      throw new Error();
+    } catch (error) {
+      if (!error.response) {
+        error.message = "грешка, обидете се повторно";
+        dispatch(editPostFail(error.message));
+        return;
+      }
+
+      dispatch(editPostFail(error.response.data));
+    }
+  };
+};
+
+//////////// delete post specs
 
 export const deletePostSuccess = (id) => {
   return {
@@ -265,3 +306,5 @@ export const deletePostRequest = (postId) => {
     }
   };
 };
+
+/// delete post images

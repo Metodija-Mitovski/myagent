@@ -14,7 +14,7 @@ import {
 } from "./PostLeftElements";
 
 const PostLeft = (props) => {
-  const { postData, setPostData, isFetching, isFetchSuccess } = props;
+  const { postData, setPostData, isFetching, isFetchSuccess, editing } = props;
   const { errorMsg } = useSelector((state) => state.postsReducer);
 
   return (
@@ -25,6 +25,7 @@ const PostLeft = (props) => {
           type="text"
           id="title"
           placeholder="максимум карактери:30"
+          value={postData.title}
           onChange={(e) => {
             setPostData({ ...postData, title: e.target.value });
           }}
@@ -37,6 +38,7 @@ const PostLeft = (props) => {
         <textarea
           id="shortDesc"
           placeholder="максимум карактери:150"
+          value={postData.shortDesc}
           onChange={(e) => {
             setPostData({ ...postData, shortDesc: e.target.value });
           }}
@@ -49,6 +51,7 @@ const PostLeft = (props) => {
         <textarea
           id="desc"
           placeholder="максимум карактери:1000"
+          value={postData.desc}
           onChange={(e) => {
             setPostData({ ...postData, desc: e.target.value });
           }}
@@ -62,6 +65,7 @@ const PostLeft = (props) => {
           type="text"
           id="price"
           placeholder="цена во €"
+          value={postData.price}
           onChange={(e) => {
             setPostData({ ...postData, price: e.target.value });
           }}
@@ -111,6 +115,7 @@ const PostLeft = (props) => {
             type="text"
             id="rooms"
             placeholder="број"
+            value={postData.specs.bedrooms}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -126,6 +131,7 @@ const PostLeft = (props) => {
             type="text"
             id="baths"
             placeholder="број"
+            value={postData.specs.baths}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -141,6 +147,7 @@ const PostLeft = (props) => {
             type="text"
             id="area"
             placeholder="m2"
+            value={postData.specs.area}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -156,6 +163,7 @@ const PostLeft = (props) => {
             type="text"
             id="area"
             placeholder="број"
+            value={postData.specs.balcony}
             onChange={(e) => {
               setPostData({
                 ...postData,
@@ -187,6 +195,7 @@ const PostLeft = (props) => {
           <input
             type="text"
             id="contact-number"
+            value={postData.contactNumber}
             onChange={(e) => {
               setPostData({ ...postData, contactNumber: e.target.value });
             }}
@@ -198,14 +207,16 @@ const PostLeft = (props) => {
         </Wrapper>
         {/* ----- */}
         <AddButton className={isFetching ? "disable" : ""} type="submit">
-          {isFetching ? <LoadSpinner /> : "Додади"}
+          {isFetching ? <LoadSpinner /> : editing ? "Зачувај" : "Додади"}
         </AddButton>
         {errorMsg !== undefined && errorMsg.serverErr && (
           <ErrMsg>{errorMsg.serverErr}</ErrMsg>
         )}
         {isFetchSuccess && (
           <p style={{ color: "#0f408a" }}>
-            Успешно додаден пост може да додадете слики
+            {editing
+              ? "Успешна промена"
+              : "Успешно додаден пост може да додадете слики"}
           </p>
         )}
       </DataLeftBottom>
