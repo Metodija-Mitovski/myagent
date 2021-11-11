@@ -4,10 +4,20 @@ const { postError } = require("../errors/error-handler");
 const mongoose = require("mongoose");
 const WishList = require("../models/wish-list-model");
 const cloudinary = require("../cloudinary");
+const validate = require("../pkg/validators/post_validator");
+const sanitaze = require("../pkg/sanitazers/sanitaze");
 
 module.exports.post_addNewPost = async (req, res) => {
-  const newPost = req.body;
+  let newPost = req.body;
   newPost.user = req.userId;
+
+  sanitaze.clearWhiteSpace(newPost);
+
+  try {
+    await validate(newPost, "CREATE");
+  } catch (error) {
+    return res.status(400).send(error);
+  }
 
   try {
     const post = await Post.create(newPost);
@@ -15,11 +25,10 @@ module.exports.post_addNewPost = async (req, res) => {
   } catch (error) {
     if (error.errors) {
       const errorData = postError(error);
-      res.status(400).json(errorData);
-      return;
+      return res.status(400).json(errorData);
     }
-
-    res.status(400).send("Серверска грешка");
+    console.log(error);
+    res.status(500).send(error);
   }
 };
 
@@ -27,6 +36,13 @@ module.exports.patch_addImages = async (req, res) => {
   const userId = req.userId;
   const postId = req.params.id;
   const images = req.body.images;
+
+  try {
+    await validate(req.body, "IMG_INSERT");
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send(error);
+  }
 
   try {
     const post = await Post.findOne({ _id: postId, user: userId });
@@ -38,7 +54,7 @@ module.exports.patch_addImages = async (req, res) => {
     res.status(200).json(post);
   } catch (error) {
     console.log(error);
-    res.status(400).json(error);
+    res.status(500).json(error);
   }
 };
 
@@ -146,7 +162,7 @@ module.exports.delete_fromWishList = async (req, res) => {
 
     if (!post) return res.status(404).send("Not found");
 
-    await WishList.deleteOne({ _id: post._id });
+    await WishList.deleteOne({ _id: post._id, user: userId });
     res.status(204).send();
   } catch (error) {
     res.status(500).send(error);
@@ -166,7 +182,7 @@ module.exports.get_WishList = async (req, res) => {
       res.status(404).send("не постои во листа на желби");
     }
   } catch (error) {
-    res.status(400).send(error);
+    res.status(500).send(error);
   }
 };
 
@@ -212,6 +228,12 @@ module.exports.patch_updatePost = async (req, res) => {
   const userId = req.userId;
 
   try {
+    await validate(req.body, "CREATE");
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+
+  try {
     const post = await Post.updateOne({ _id: postId, user: userId }, req.body);
 
     if (!post.n) {
@@ -221,6 +243,6 @@ module.exports.patch_updatePost = async (req, res) => {
     res.status(204).send();
   } catch (error) {
     console.log(error);
-    res.send(error);
+    res.status(500).send(error);
   }
 };

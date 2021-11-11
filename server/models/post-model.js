@@ -4,53 +4,46 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: ["Наслов е задолжително поле"],
-      maxLength: [40, "Полето може да содржи максимум 30 карактери"],
-    },
-    shortDesc: {
-      type: String,
-      required: ["Краток опис е задолжително поле"],
-      maxLength: [150, "Полето може да содржи максимум 150 карактери"],
     },
     desc: {
       type: String,
-      required: ["Опис е задолжително поле"],
-      maxLength: [1000, "Полето може да содржи максимум 1000 карактери"],
     },
     price: {
-      type: String,
+      type: Number,
     },
     purpose: {
       type: String,
-      required: ["Намена е задолжително поле"],
+      enum: {
+        values: ["продажба", "изнајмување"],
+        message: "дозволени опции:(продажба,изнајмување)",
+      },
     },
     realEstateType: {
       type: String,
-      required: ["Тип е задолжително поле"],
+      enum: {
+        values: ["стан", "куќа", "гарсоњера"],
+        message: "дозволени опции:(стан,куќа,гарсоњера)",
+      },
     },
     specs: {
       bedrooms: String,
       baths: String,
-      area: String,
+      area: Number,
       balcony: String,
       parking: Boolean,
     },
     location: {
-      city: {
-        type: String,
-        required: true,
-      },
+      city: String,
       settlement: String,
       street: String,
       streetNumber: String,
-      mapLocation: {
-        lat: Number,
-        lng: Number,
-      },
+    },
+    mapLocation: {
+      lat: Number,
+      lng: Number,
     },
     contactNumber: {
-      type: String,
-      required: ["Контакт број е задолжително поле"],
+      type: Number,
     },
     images: [
       {

@@ -47,13 +47,12 @@ const SinglePost = ({ post }) => {
         <LatestPostMiddle>
           <span>{post.price ? `€${post.price}` : `договор`}</span>
           <h2>{post.title}</h2>
-          <p className="short-desc">{post.shortDesc}</p>
 
           <LatestPostDataWrapper>
             <LatestPostData>
               <span>
                 <BiBed className="data-icon" />
-                {post.specs.bedrooms && post.specs.bedrooms}
+                {post.specs && post.specs.bedrooms}
               </span>
               <p>Спална</p>
             </LatestPostData>
@@ -61,7 +60,7 @@ const SinglePost = ({ post }) => {
             <LatestPostData>
               <span>
                 <BiBath className="data-icon" />
-                {post.specs.baths && post.specs.baths}
+                {post.specs && post.specs.baths}
               </span>
               <p>Купатило</p>
             </LatestPostData>
@@ -69,7 +68,7 @@ const SinglePost = ({ post }) => {
             <LatestPostData>
               <span>
                 <FaVectorSquare className="data-icon" />
-                {post.specs.area && post.specs.area}
+                {post.specs && post.specs.area}
               </span>
               <p>м2</p>
             </LatestPostData>

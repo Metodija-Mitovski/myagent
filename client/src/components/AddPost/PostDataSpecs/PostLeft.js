@@ -31,21 +31,9 @@ const PostLeft = (props) => {
           }}
         />
         {errorMsg !== undefined && errorMsg.title && (
-          <ErrMsg>{errorMsg.title}</ErrMsg>
+          <ErrMsg>{errorMsg.title.message}</ErrMsg>
         )}
-        {/* --- */}
-        <label htmlFor="shortDesc">Краток Опис</label>
-        <textarea
-          id="shortDesc"
-          placeholder="максимум карактери:150"
-          value={postData.shortDesc}
-          onChange={(e) => {
-            setPostData({ ...postData, shortDesc: e.target.value });
-          }}
-        />
-        {errorMsg !== undefined && errorMsg.shortDesc && (
-          <ErrMsg>{errorMsg.shortDesc}</ErrMsg>
-        )}
+
         {/* --- */}
         <label htmlFor="desc">Опис</label>
         <textarea
@@ -57,7 +45,7 @@ const PostLeft = (props) => {
           }}
         />
         {errorMsg !== undefined && errorMsg.desc && (
-          <ErrMsg>{errorMsg.desc}</ErrMsg>
+          <ErrMsg>{errorMsg.desc.message}</ErrMsg>
         )}
         {/* --- */}
         <label htmlFor="price">Цена:</label>
@@ -70,6 +58,9 @@ const PostLeft = (props) => {
             setPostData({ ...postData, price: e.target.value });
           }}
         />
+        {errorMsg !== undefined && errorMsg.price && (
+          <ErrMsg>{errorMsg.price.message}</ErrMsg>
+        )}
       </DataLeftTop>
       <DataLeftBottom>
         {/* ---- */}
@@ -86,7 +77,7 @@ const PostLeft = (props) => {
             <Option value="изнајмување">изнајмување</Option>
           </Select>
           {errorMsg !== undefined && errorMsg.purpose && (
-            <ErrMsg>{errorMsg.purpose}</ErrMsg>
+            <ErrMsg>{errorMsg.purpose.message}</ErrMsg>
           )}
         </Wrapper>
         {/* ----- */}
@@ -104,7 +95,7 @@ const PostLeft = (props) => {
             <Option value="гарсоњера">гарсоњера</Option>
           </Select>
           {errorMsg !== undefined && errorMsg.realEstateType && (
-            <ErrMsg>{errorMsg.realEstateType}</ErrMsg>
+            <ErrMsg>{errorMsg.realEstateType.message}</ErrMsg>
           )}
           {/* --- */}
         </Wrapper>
@@ -123,6 +114,9 @@ const PostLeft = (props) => {
               });
             }}
           />
+          {errorMsg !== undefined && errorMsg["specs.bedrooms"] && (
+            <ErrMsg>{errorMsg["specs.bedrooms"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -139,6 +133,9 @@ const PostLeft = (props) => {
               });
             }}
           />
+          {errorMsg !== undefined && errorMsg["specs.baths"] && (
+            <ErrMsg>{errorMsg["specs.baths"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -155,6 +152,9 @@ const PostLeft = (props) => {
               });
             }}
           />
+          {errorMsg !== undefined && errorMsg["specs.area"] && (
+            <ErrMsg>{errorMsg["specs.area"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ---- */}
         <Wrapper>
@@ -171,6 +171,9 @@ const PostLeft = (props) => {
               });
             }}
           />
+          {errorMsg !== undefined && errorMsg["specs.balcony"] && (
+            <ErrMsg>{errorMsg["specs.balcony"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -184,10 +187,13 @@ const PostLeft = (props) => {
               });
             }}
           >
-            <Option value="">избери</Option>
+            <Option>избери</Option>
             <Option value={true}>да</Option>
             <Option value={false}>не</Option>
           </Select>
+          {errorMsg !== undefined && errorMsg["specs.parking"] && (
+            <ErrMsg>{errorMsg["specs.parking"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -201,7 +207,7 @@ const PostLeft = (props) => {
             }}
           />
           {errorMsg !== undefined && errorMsg.contactNumber && (
-            <ErrMsg>{errorMsg.contactNumber}</ErrMsg>
+            <ErrMsg>{errorMsg.contactNumber.message}</ErrMsg>
           )}
           {/* --- */}
         </Wrapper>

@@ -33,30 +33,27 @@ const Map = ({
           onClick={({ lat, lng }) => {
             setPostData({
               ...postData,
-              location: {
-                ...postData.location,
-                mapLocation: { lat: lat, lng: lng },
+              mapLocation: {
+                ...postData.mapLocation,
+                lat: lat,
+                lng: lng,
               },
             });
 
             setUpdateMap(true);
           }}
         >
-          {editing &&
-          singlePost &&
-          singlePost.location.mapLocation.lat &&
-          singlePost.location.mapLocation.lng &&
-          !updateMap ? (
+          {singlePost && singlePost.mapLocation && editing && !updateMap ? (
             <MarkerPin
-              lat={singlePost.location.mapLocation.lat}
-              lng={singlePost.location.mapLocation.lng}
+              lat={singlePost.mapLocation.lat}
+              lng={singlePost.mapLocation.lng}
             />
           ) : (
-            postData.location.mapLocation.lat &&
-            postData.location.mapLocation.lng && (
+            postData.mapLocation &&
+            postData.mapLocation.lat && (
               <MarkerPin
-                lat={postData.location.mapLocation.lat}
-                lng={postData.location.mapLocation.lng}
+                lat={postData.mapLocation.lat}
+                lng={postData.mapLocation.lng}
               />
             )
           )}

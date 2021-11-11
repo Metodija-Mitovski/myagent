@@ -28,7 +28,7 @@ const PostRight = (props) => {
             setZoomCityLocation={props.setZoomCityLocation}
           />
           {errorMsg !== undefined && errorMsg["location.city"] && (
-            <ErrMsg>Град е задолжително поле</ErrMsg>
+            <ErrMsg>{errorMsg["location.city"].message}</ErrMsg>
           )}
         </Wrapper>
 
@@ -46,6 +46,9 @@ const PostRight = (props) => {
               });
             }}
           />
+         {errorMsg !== undefined && errorMsg["location.settlement"] && (
+            <ErrMsg>{errorMsg["location.settlement"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -61,6 +64,9 @@ const PostRight = (props) => {
               });
             }}
           />
+            {errorMsg !== undefined && errorMsg["location.street"] && (
+            <ErrMsg>{errorMsg["location.street"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* ----- */}
         <Wrapper>
@@ -79,6 +85,9 @@ const PostRight = (props) => {
               });
             }}
           />
+            {errorMsg !== undefined && errorMsg["location.streetNumber"] && (
+            <ErrMsg>{errorMsg["location.streetNumber"].message}</ErrMsg>
+          )}
         </Wrapper>
         {/* --map-- */}
       </DataRightBottom>

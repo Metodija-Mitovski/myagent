@@ -38,7 +38,7 @@ const TableData = () => {
         </tr>
         <tr>
           <td>паркинг</td>
-          <td>{post.specs.parking ? "да" : "/"}</td>
+          <td>{post.specs.parking ? "да" : "не"}</td>
         </tr>
         <tr>
           <td>локација</td>

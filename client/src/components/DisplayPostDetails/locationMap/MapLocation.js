@@ -4,17 +4,15 @@ import Map from "../../AddPost/PostDataSpecs/Map";
 // components
 
 const MapLocation = () => {
-  const location = useSelector(
-    (state) => state.postsReducer.singlePost.location
-  );
+  const singlePost = useSelector((state) => state.postsReducer.singlePost);
 
   return (
     <>
-      {location.mapLocation ? (
+      {singlePost.mapLocation ? (
         <Map
           fromAddPost={false}
-          lat={location.mapLocation.lat}
-          lng={location.mapLocation.lng}
+          lat={singlePost.mapLocation.lat}
+          lng={singlePost.mapLocation.lng}
         />
       ) : (
         <h1>Локацијата не е достапна...</h1>

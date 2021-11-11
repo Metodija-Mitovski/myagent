@@ -18,32 +18,12 @@ const PostForm = styled.form`
 
 const PostDataSpecs = (props) => {
   const [postData, setPostData] = useState({
-    title: "",
-    shortDesc: "",
-    desc: "",
-    price: "",
-    purpose: "",
-    realEstateType: "",
-    specs: {
-      bedrooms: "",
-      baths: "",
-      area: "",
-      balcony: "",
-      parking: "",
-    },
-    location: {
-      city: "",
-      settlement: "",
-      street: "",
-      streetNumber: "",
-      mapLocation: {
-        lat: "",
-        lng: "",
-      },
-    },
-    contactNumber: "",
+    specs: {},
+    location: {},
+    mapLocation: {},
     images: [],
   });
+
   const { setPostSpecs, editing } = props;
   const dispatch = useDispatch();
   const { isFetching, newPost, singlePost } = useSelector(

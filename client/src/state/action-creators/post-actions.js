@@ -38,7 +38,6 @@ export const getLatestPostsRequest = () => {
       }
     } catch (error) {
       if (!error.response) {
-        error.message = "се случи грешка,обидете се повторно";
         dispatch(getLatestPostsFail(error.message));
         return;
       }
@@ -116,7 +115,6 @@ export const getSinglePostRequest = (postId) => {
       }
     } catch (error) {
       if (!error.response) {
-        error.message = "Се случи грешка обидете се повторно";
         dispatch(getSinglePostFail(error.message));
         return;
       }
@@ -208,7 +206,6 @@ export const addPostRequest = (postData) => {
       }
     } catch (error) {
       if (!error.response) {
-        error.message = "грешка, обидете се повторно";
         dispatch(addPostFail(error.message));
         return;
       }
@@ -255,7 +252,6 @@ export const editPostRequest = (id, data) => {
       throw new Error();
     } catch (error) {
       if (!error.response) {
-        error.message = "грешка, обидете се повторно";
         dispatch(editPostFail(error.message));
         return;
       }
@@ -294,8 +290,6 @@ export const deletePostRequest = (postId) => {
         dispatch(deletePostSuccess(postId));
         return;
       }
-
-      throw new Error("грешка обидете се повторно");
     } catch (error) {
       if (!error.response) {
         dispatch(deletePostFail(error.message));
