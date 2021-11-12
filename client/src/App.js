@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { authenticationRequest } from "./state/action-creators/user-actions";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
-
 //pages
 import HomePage from "./pages/Home";
 import RegisterPage from "./pages/Register";
