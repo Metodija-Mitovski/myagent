@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
+import api from "../../api/api";
 
 //components
 import LoadSpinner from "../Loader/Loader";
@@ -13,20 +14,15 @@ import {
   SubmitBtn,
   ErrorHolder,
   LoginRegisterLink,
+  SuccessPar,
 } from "./RegisterElements";
 //
 
 const Register = () => {
   const [userData, setUserData] = useState({});
   const [confirmPassword, setConfirmPassword] = useState(null);
-  const [errors, setErrors] = useState({
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    passMatch: null,
-    server: null,
-  });
+  const [errors, setErrors] = useState({});
+
   const [successMsg, setSuccessMsg] = useState("");
   const [isFetching, setIsFetching] = useState(false);
 
@@ -46,7 +42,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/user/signup", {
+      await axios.post(`${api.rootUser}/signup`, {
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,
@@ -61,20 +57,16 @@ const Register = () => {
       }, 1500);
     } catch (err) {
       setIsFetching(false);
-      if (!err.response) {
+      if (err.response.data.code === 11000) {
         setErrors({
           ...errors,
-          server: "Серверска грешка, обидете се повторно",
+          email: { message: "и-мејлот е претходно регистриран" },
         });
+
         return;
       }
 
-      if (err.response.data.message) {
-        setErrors({ ...errors, email: err.response.data.message });
-        return;
-      } else {
-        setErrors({ ...err.response.data, passMatch: errors.passMatch });
-      }
+      setErrors(err.response.data);
     }
   };
 
@@ -100,7 +92,7 @@ const Register = () => {
               }
             />
             <ErrorHolder>
-              {errors.firstName ? errors.firstName : ""}
+              {errors.firstName ? errors.firstName.message : ""}
             </ErrorHolder>
           </DataWrapper>
           {/* --- */}
@@ -113,7 +105,9 @@ const Register = () => {
                 setUserData({ ...userData, lastName: e.target.value })
               }
             />
-            <ErrorHolder>{errors.lastName ? errors.lastName : ""}</ErrorHolder>
+            <ErrorHolder>
+              {errors.lastName ? errors.lastName.message : ""}
+            </ErrorHolder>
           </DataWrapper>
           {/* --- */}
           <DataWrapper>
@@ -125,7 +119,9 @@ const Register = () => {
                 setUserData({ ...userData, email: e.target.value })
               }
             />
-            <ErrorHolder>{errors.email ? errors.email : ""}</ErrorHolder>
+            <ErrorHolder>
+              {errors.email ? errors.email.message : ""}
+            </ErrorHolder>
           </DataWrapper>
           {/* --- */}
           <DataWrapper>
@@ -137,7 +133,9 @@ const Register = () => {
                 setUserData({ ...userData, password: e.target.value })
               }
             />
-            <ErrorHolder>{errors.password ? errors.password : ""}</ErrorHolder>
+            <ErrorHolder>
+              {errors.password ? errors.password.message : ""}
+            </ErrorHolder>
           </DataWrapper>
           {/* --- */}
           <DataWrapper>
@@ -153,10 +151,7 @@ const Register = () => {
           </DataWrapper>
           {/* --- */}
           <SubmitBtn>{isFetching ? <LoadSpinner /> : "Регистрација"}</SubmitBtn>
-          <ErrorHolder>
-            {errors.server ? errors.server : successMsg}
-          </ErrorHolder>
-
+          <SuccessPar>{successMsg}</SuccessPar>
           <LoginRegisterLink to="/login">Веќе имате профил ?</LoginRegisterLink>
         </RegisterForm>
       </RegisterDataSection>

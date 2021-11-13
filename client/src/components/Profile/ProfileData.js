@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ProfilePassword from "./ProfilePassword";
 import ProcesBtn from "./ProcessBtn";
-import { updateAccDataRequest } from "../../state/action-creators/user-actions";
+import {
+  updateAccDataRequest,
+  clearUpdateAccErr,
+} from "../../state/action-creators/user-actions";
 
 import {
   InfoWrapper,
@@ -13,7 +16,7 @@ import {
 
 const ProfileData = () => {
   const user = useSelector((state) => state.user);
-  const { errorMsg } = useSelector((state) => state.user);
+  let { errorMsg } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [updateUserData, setupdateUserData] = useState({
@@ -21,6 +24,12 @@ const ProfileData = () => {
     lastName: user.lastName,
     email: user.email,
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearUpdateAccErr());
+    };
+  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +58,9 @@ const ProfileData = () => {
               });
             }}
           />
+          {errorMsg != undefined && errorMsg.firstName && (
+            <Error>{errorMsg.firstName.message}</Error>
+          )}
         </UserDataWrapper>
         <UserDataWrapper>
           <label htmlFor="lastName">Презиме:</label>
@@ -64,6 +76,9 @@ const ProfileData = () => {
               });
             }}
           />
+          {errorMsg != undefined && errorMsg.lastName && (
+            <Error>{errorMsg.lastName.message}</Error>
+          )}
         </UserDataWrapper>
         <UserDataWrapper>
           <label htmlFor="email">И-мејл:</label>
@@ -80,7 +95,9 @@ const ProfileData = () => {
             }}
           />
 
-          {errorMsg !== undefined && <Error>{errorMsg.message}</Error>}
+          {errorMsg != undefined && errorMsg.email && (
+            <Error>{errorMsg.email.message}</Error>
+          )}
         </UserDataWrapper>
         {/* ----- */}
         <ProcesBtn updateUserData={updateUserData} />

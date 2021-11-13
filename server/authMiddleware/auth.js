@@ -19,40 +19,40 @@ const isAuth = (req, res, next) => {
 
 const confirmUpdate = async (req, res, next) => {
   const userId = req.userId;
-  const updateData = {};
-  for (key in req.body) {
-    updateData[key] = req.body[key];
-  }
 
   try {
     const user = await User.findById(userId);
-    if (!user) throw new Error("Грешка");
+    if (!user) {
+      return res.status(401).send("Немате авторизација");
+    }
 
-    if ("currentPassword" in updateData && "newPassword" in updateData) {
+    if ("password" in req.body && !"currentPassword" in req.body) {
+      return res.status(400).send("внесете лозинка");
+    }
+
+    if ("currentPassword" in req.body && "password" in req.body) {
       const checkOldPass = await bcrypt.compare(
-        updateData.currentPassword,
+        req.body.currentPassword,
         user.password
       );
 
-      if (!checkOldPass) throw new Error("Невалиден пасворд");
-      if (req.body.newPassword.length < 8) {
-        throw new Error("Пасвордот мора да содржи најмалку 8 карактери");
+      if (!checkOldPass) {
+        return res.status(400).send("Невалидна лозинка");
       }
-      delete updateData.currentPassword;
     }
 
-    req.body = updateData;
     next();
   } catch (error) {
-    const errData = errorHandler.userError(error);
-    res.status(400).json(errData);
+    res.status(500).send(error);
   }
 };
 
 const confirmDeleteAcc = async (req, res, next) => {
   const userId = req.userId;
 
-  if (!req.body.password) throw new Error("Невалиден пасворд");
+  if (!req.body.password) {
+    return res.status(400).send("внеси лозинка");
+  }
 
   try {
     const user = await User.findById(userId);
@@ -63,13 +63,12 @@ const confirmDeleteAcc = async (req, res, next) => {
     );
 
     if (!isPasswordCorrect) {
-      throw new Error("Невалиден пасворд");
+      return res.status(400).send("невалидна лозинка");
     }
 
     next();
   } catch (error) {
-    const errData = errorHandler.userError(error);
-    res.status(400).json(errData);
+    res.status(500).send(error);
   }
 };
 

@@ -38,7 +38,7 @@ const ProfilePassword = () => {
         `${api.rootUser}/update`,
         {
           currentPassword: password.current,
-          newPassword: password.new,
+          password: password.new,
         },
         { withCredentials: true }
       );
@@ -53,6 +53,9 @@ const ProfilePassword = () => {
         });
       }
     } catch (error) {
+      if (error.response.data.password) {
+        return setInfoMsg(error.response.data.password.message);
+      }
       setInfoMsg(error.response.data);
       setIsFetching(false);
     }
@@ -108,7 +111,7 @@ const ProfilePassword = () => {
         </ButtonWrapper>
       ) : (
         <ButtonWrapper>
-          <button disabled>Промени</button>
+          <button>Промени</button>
         </ButtonWrapper>
       )}
     </UserPasswordForm>

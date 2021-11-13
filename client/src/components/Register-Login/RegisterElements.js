@@ -61,6 +61,12 @@ export const ErrorHolder = styled.p`
   color: #ff3300;
 `;
 
+export const SuccessPar = styled.p`
+  color: blue;
+  margin: 0.8rem;
+  color: #1158a6;
+`;
+
 export const LoginRegisterLink = styled(Link)`
   color: #0f408a;
   text-decoration: none;

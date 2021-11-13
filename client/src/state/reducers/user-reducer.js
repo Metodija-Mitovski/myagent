@@ -78,6 +78,12 @@ const userReducer = (state = initState, action) => {
         isFetching: false,
       };
 
+    case userConstants.UPDATE_ACCOUNT_CLEAR_ERRORS:
+      return {
+        ...state,
+        errorMsg: undefined,
+      };
+
     case userConstants.LOG_OUT:
       return {
         ...state,

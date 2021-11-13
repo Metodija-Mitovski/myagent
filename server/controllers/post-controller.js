@@ -212,7 +212,7 @@ module.exports.delete_Post = async (req, res) => {
       const imgIds = post.images.map((img) => img.publicId);
       cloudinary.api.delete_resources(imgIds, (error, result) => {
         if (error) {
-          throw new Error();
+          return res.status(400).send("Internal server error");
         }
       });
     }

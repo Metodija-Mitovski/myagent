@@ -141,13 +141,24 @@ export const updateAccDataRequest = (userData) => {
       }
     } catch (error) {
       if (!error.response) {
-        error.message = "грешка, обидете се повторно";
-        dispatch(updateAccDataFail(error.message));
         return;
+      }
+      if (error.response.data.code === 11000) {
+        return dispatch(
+          updateAccDataFail({
+            email: { message: "и-мејлот е претходно регистриран" },
+          })
+        );
       }
 
       dispatch(updateAccDataFail(error.response.data));
     }
+  };
+};
+
+export const clearUpdateAccErr = () => {
+  return (dispatch) => {
+    dispatch({ type: userConstants.UPDATE_ACCOUNT_CLEAR_ERRORS });
   };
 };
 
@@ -175,19 +186,10 @@ export const deleteAccountRequest = (password) => {
         { data: { password }, withCredentials: true }
       );
 
-      if (res.status === 200) {
-        dispatch(deleteAccountSuccess());
-        return;
-      } else {
-        throw new Error();
+      if (res.status === 204) {
+        return dispatch(deleteAccountSuccess());
       }
     } catch (error) {
-      if (!error.response) {
-        error.message = "грешка, обидете се повторно";
-        dispatch(deleteAccountFail(error.message));
-        return;
-      }
-
       dispatch(deleteAccountFail(error.response.data));
     }
   };

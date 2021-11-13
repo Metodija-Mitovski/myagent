@@ -1,10 +1,4 @@
 module.exports.userError = (error) => {
-  if (error.code === 11000) {
-    return {
-      message: "Невалиден и-мејл",
-    };
-  }
-
   if (error.errors) {
     const errorMessage = {
       firstName: "",
@@ -19,8 +13,6 @@ module.exports.userError = (error) => {
 
     return errorMessage;
   }
-
-  return error.message;
 };
 
 module.exports.postError = (error) => {
