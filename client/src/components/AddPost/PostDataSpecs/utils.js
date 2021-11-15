@@ -4,7 +4,9 @@ import axios from "axios";
 export const updateGeoMapCenterView = async (city) => {
   const geoUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
     city
-  )}.json?proximity=-122.3995752,37.7881856&access_token=pk.eyJ1IjoibWl0b3Zjb2Rpbmc3NyIsImEiOiJja3R2emxqaXgyZmRlMnBwbm9hZDI3OGRuIn0.pHJZqIX5wcTd-7sc3wRQPA`;
+  )}.json?proximity=-122.3995752,37.7881856&access_token=${
+    process.env.REACT_APP_GEO_CODING_KEY
+  }`;
 
   try {
     const res = await axios.get(geoUrl);

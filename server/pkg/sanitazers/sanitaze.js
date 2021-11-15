@@ -1,5 +1,4 @@
 function clearWhiteSpace(obj) {
-  // const res = {};
   function recurse(obj) {
     for (const key in obj) {
       let value = obj[key];

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import api from "../../api/api";
 import {
   ImgWrapper,
   ImgOptionForm,
@@ -9,7 +10,8 @@ import {
   LoaderWrapper,
   ErrorHolder,
 } from "./ProfileImgElemets";
-import { updateUser } from "../../state/action-creators/user-actions";
+
+import { updateAccDataSuccess } from "../../state/action-creators/user-actions";
 import LoadSpinner from "../Loader/Loader";
 
 import noAvatar from "../../static/images/noAvatar.png";
@@ -35,7 +37,10 @@ const ProfileImg = () => {
       ) {
         const formData = new FormData();
         formData.append("file", fileImg);
-        formData.append("upload_preset", "uenpu4kp");
+        formData.append(
+          "upload_preset",
+          `${process.env.REACT_APP_CLOUDINARY_KEY}`
+        );
         const res = await axios.post(
           "https://api.cloudinary.com/v1_1/mitovcoding/image/upload",
           formData
@@ -44,7 +49,7 @@ const ProfileImg = () => {
         if (res.status === 200) {
           const imgUrl = res.data.secure_url;
           const userRes = await axios.patch(
-            "http://localhost:5000/user/update",
+            `${api.rootUser}/update`,
             {
               profileImg: {
                 url: imgUrl,
@@ -58,7 +63,7 @@ const ProfileImg = () => {
             setIsFetching(false);
 
             dispatch(
-              updateUser({
+              updateAccDataSuccess({
                 profileImg: { url: imgUrl, id: userRes.data.profileImg.id },
               })
             );
@@ -88,7 +93,7 @@ const ProfileImg = () => {
       );
       if (res.status === 200) {
         dispatch(
-          updateUser({
+          updateAccDataSuccess({
             profileImg: { url: "", id: "" },
           })
         );
@@ -99,7 +104,7 @@ const ProfileImg = () => {
       throw new Error("Грешка, обидете се повторно");
     } catch (error) {
       console.log(error.response);
-      // setErrorMsg(error.message);
+
       setIsFetching(false);
     }
   };

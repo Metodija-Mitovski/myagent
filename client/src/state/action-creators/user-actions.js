@@ -107,12 +107,6 @@ export const userLogout = () => {
 
 //// update user data
 
-export const updateUser = (userData) => {
-  return (dispatch) => {
-    dispatch({ type: "USER_UPDATE", payload: userData });
-  };
-};
-
 export const updateAccDataSuccess = (data) => {
   return {
     type: userConstants.UPDATE_ACCOUNT_SUCCESS,

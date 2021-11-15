@@ -22,7 +22,7 @@ const Map = ({
         <GoogleMapReact
           bootstrapURLKeys={{
             //   set env
-            key: "AIzaSyD1w_hV2WYeFMy0lHZVZm9d_8fpyCR8nRE",
+            key: `${process.env.REACT_APP_GOOGLE_MAP_KEY}`,
           }}
           center={
             zoomCityLocation.lat && zoomCityLocation.lng
@@ -62,7 +62,7 @@ const Map = ({
         <GoogleMapReact
           bootstrapURLKeys={{
             //   set env
-            key: "AIzaSyD1w_hV2WYeFMy0lHZVZm9d_8fpyCR8nRE",
+            key: `${process.env.REACT_APP_GOOGLE_MAP_KEY}`,
           }}
           center={{ lat: lat, lng: lng }}
           zoom={15}

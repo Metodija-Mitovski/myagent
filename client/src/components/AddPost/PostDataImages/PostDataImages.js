@@ -79,7 +79,10 @@ const PostDataImages = ({ editing }) => {
       const uploaders = fileImg.map((img) => {
         const formData = new FormData();
         formData.append("file", img);
-        formData.append("upload_preset", "uenpu4kp");
+        formData.append(
+          "upload_preset",
+          `${process.env.REACT_APP_CLOUDINARY_KEY}`
+        );
         return axios.post(
           "https://api.cloudinary.com/v1_1/mitovcoding/image/upload",
           formData

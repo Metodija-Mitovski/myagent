@@ -1,7 +1,6 @@
 const User = require("../models/user-model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const errorHandler = require("../errors/error-handler");
 
 const isAuth = (req, res, next) => {
   try {

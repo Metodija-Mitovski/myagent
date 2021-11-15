@@ -1,6 +1,5 @@
 const Post = require("../models/post-model");
 const User = require("../models/user-model");
-const { postError } = require("../errors/error-handler");
 const mongoose = require("mongoose");
 const WishList = require("../models/wish-list-model");
 const cloudinary = require("../cloudinary");
@@ -23,11 +22,6 @@ module.exports.post_addNewPost = async (req, res) => {
     const post = await Post.create(newPost);
     res.status(200).json(post);
   } catch (error) {
-    if (error.errors) {
-      const errorData = postError(error);
-      return res.status(400).json(errorData);
-    }
-    console.log(error);
     res.status(500).send(error);
   }
 };
@@ -91,6 +85,8 @@ module.exports.patch_removeImages = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
+module.exports.get_Posts = async (req, res) => {};
 
 module.exports.get_latestPosts = async (req, res) => {
   try {

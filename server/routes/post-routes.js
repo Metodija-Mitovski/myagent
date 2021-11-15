@@ -40,6 +40,7 @@ router.delete("/:id", isAuth, postController.delete_Post);
 // get single post
 router.get("/:id", postController.get_singlePost);
 
-// get multiple posts
+// get posts
+router.get("/", postController.get_Posts);
 
 module.exports = router;

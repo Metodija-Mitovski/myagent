@@ -64,9 +64,7 @@ const userReducer = (state = initState, action) => {
     case userConstants.UPDATE_ACCOUNT_SUCCESS:
       return {
         ...state,
-        firstName: payload.firstName,
-        lastName: payload.lastName,
-        email: payload.email,
+        ...payload,
         isFetching: false,
         errorMsg: undefined,
       };
