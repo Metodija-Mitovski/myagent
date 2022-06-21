@@ -29,8 +29,6 @@ export const Slider = styled.div`
 `;
 
 export const LatestPostWrapper = styled.div`
-  min-width: 30%;
-  max-width: 30%;
   margin-right: 3.33%;
   margin-top: 10px;
   margin-bottom: 10px;

@@ -6,7 +6,7 @@ import {
 } from "./QuerySectionElements";
 
 /// components
-import QueryUtils from "./QueryUtils";
+import QueryData from "./QueryData";
 
 const QuerySection = () => {
   return (
@@ -16,7 +16,7 @@ const QuerySection = () => {
           <HeadingMain>
             Пронајди го местото од соништата со наша помош
           </HeadingMain>
-          <QueryUtils></QueryUtils>
+          <QueryData search={false}></QueryData>
         </OverlayDarken>
       </SectionMainWrapper>
     </SectionMain>

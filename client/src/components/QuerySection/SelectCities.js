@@ -1,9 +1,6 @@
 import PropTypes from "prop-types";
-import { Select, Option } from "./QueryUtilElements";
-import {
-  updateGeoMapCenterView,
-  cyr_to_lat,
-} from "../AddPost/PostDataSpecs/utils";
+import { Select, Option } from "./QueryDataElements";
+import { updateGeoMapCenterView } from "../AddPost/PostDataSpecs/utils";
 
 const SelectCities = (props) => {
   const { setPostData } = props;
@@ -24,55 +21,55 @@ const SelectCities = (props) => {
             };
           });
 
-          const city_to_lat = cyr_to_lat(e.target.value);
-          const location = await updateGeoMapCenterView(city_to_lat);
+          const location = await updateGeoMapCenterView(e.target.value);
           if (location) {
             props.setZoomCityLocation({ lat: location.lat, lng: location.lng });
           } else {
             props.setZoomCityLocation({ lat: "", lng: "" });
           }
         }
+
+        if (props.query) {
+          props.setQuery({ ...props.query, city: e.target.value });
+        }
       }}
     >
-      <Option value="">град:</Option>
-      {props.post === false && (
-        <Option value="Cela Makedonija">Цела Македонија</Option>
-      )}
-      <Option value="скопје">Скопје</Option>
-      <Option value="охрид">Охрид</Option>
-      <Option value="струга">Струга</Option>
-      <Option value="дојран">Дојран</Option>
-      <Option value="куманово"> Куманово</Option>
-      <Option value="битола">Битола</Option>
-      <Option value="штип">Штип</Option>
-      <Option value="велес">Велес</Option>
-      <Option value="демир капија">Демир Капија</Option>
-      <Option value="кавадарци">Кавадарци</Option>
-      <Option value="неготино">Неготино</Option>
-      <Option value="свети николе">Свети Николе</Option>
-      <Option value="верово">Берово</Option>
-      <Option value="виница"> Виница</Option>
-      <Option value="делчево">Делчево</Option>
-      <Option value="кочани">Кочани</Option>
-      <Option value="македонска каменица">Македонска Каменица</Option>
-      <Option value="пехчево">Пехчево</Option>
-      <Option value="пробиштип">Пробиштип</Option>
-      <Option value="дебар">Дебар</Option>
-      <Option value="кичево">Кичево</Option>
-      <Option value="македонски брод">Македонски Брод</Option>
-      <Option value="богданци">Богданци</Option>
-      <Option value="валандово">Валандово</Option>
-      <Option value="гевгелија">Гевгелија</Option>
-      <Option value="радовиш">Радовиш</Option>
-      <Option value="струмица">Струмица</Option>
-      <Option value="демир хисар">Демир Хисар</Option>
-      <Option value="крушево">Крушево</Option>
-      <Option value="прилеп">Прилеп</Option>
-      <Option value="ресен">Ресен</Option>
-      <Option value="гостивар">Гостивар</Option>
-      <Option value="тетово">Тетово</Option>
-      <Option value="крива паланка">Крива Паланка</Option>
-      <Option value="кратово">Кратово</Option>
+      {props.post === false && <Option value="all">Цела Македонија</Option>}
+      <Option value="skopje">Скопје</Option>
+      <Option value="ohrid">Охрид</Option>
+      <Option value="struga">Струга</Option>
+      <Option value="dojran">Дојран</Option>
+      <Option value="kumanovo"> Куманово</Option>
+      <Option value="bitola">Битола</Option>
+      <Option value="štip">Штип</Option>
+      <Option value="veles">Велес</Option>
+      <Option value="demir kapija">Демир Капија</Option>
+      <Option value="kavadarci">Кавадарци</Option>
+      <Option value="negotino">Неготино</Option>
+      <Option value="sveti nikole">Свети Николе</Option>
+      <Option value="berovo">Берово</Option>
+      <Option value="vinica"> Виница</Option>
+      <Option value="delčevo">Делчево</Option>
+      <Option value="kočani">Кочани</Option>
+      <Option value="makedonska kamenica">Македонска Каменица</Option>
+      <Option value="pehčevo">Пехчево</Option>
+      <Option value="probištip">Пробиштип</Option>
+      <Option value="debar">Дебар</Option>
+      <Option value="kičevo">Кичево</Option>
+      <Option value="makedonski brod">Македонски Брод</Option>
+      <Option value="bogdanci">Богданци</Option>
+      <Option value="valandovo">Валандово</Option>
+      <Option value="gevgelija">Гевгелија</Option>
+      <Option value="radoviš">Радовиш</Option>
+      <Option value="strumica">Струмица</Option>
+      <Option value="demir hisar">Демир Хисар</Option>
+      <Option value="kruševo">Крушево</Option>
+      <Option value="prilep">Прилеп</Option>
+      <Option value="resen">Ресен</Option>
+      <Option value="gostivar">Гостивар</Option>
+      <Option value="tetovo">Тетово</Option>
+      <Option value="kriva palanka">Крива Паланка</Option>
+      <Option value="kratovo">Кратово</Option>
     </Select>
   );
 };

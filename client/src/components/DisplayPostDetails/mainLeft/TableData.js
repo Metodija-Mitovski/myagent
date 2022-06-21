@@ -10,7 +10,7 @@ const TableData = () => {
       <tbody>
         <tr>
           <td>намена</td>
-          <td>{post.purpose}</td>
+          <td>{post.purpose === "sale" ? "продажба" : "изнајмување"}</td>
         </tr>
         <tr>
           <td>цена</td>
@@ -18,7 +18,13 @@ const TableData = () => {
         </tr>
         <tr>
           <td>тип</td>
-          <td>{post.realEstateType}</td>
+          <td>
+            {post.realEstateType === "apartment"
+              ? "стан"
+              : post.realEstateType === "house"
+              ? "куќа"
+              : "гарсоњера"}
+          </td>
         </tr>
         <tr>
           <td>спални</td>

@@ -15,6 +15,8 @@ import {
   MiddleLocation,
 } from "./LatestPostElements";
 
+import { cyr_to_lat } from "../AddPost/PostDataSpecs/utils";
+
 // react icons
 import { FiCamera } from "react-icons/fi";
 import { BiBed, BiBath } from "react-icons/bi";
@@ -33,10 +35,8 @@ const SinglePost = ({ post }) => {
           <PostImg
             src={post.images.length > 0 ? post.images[0].imgUrl : noImage}
           />
-          <SaleRentSpan
-            bg={post.purpose === "продажба" ? "#ff5a3c" : "#0f408a"}
-          >
-            {post.purpose}
+          <SaleRentSpan bg={post.purpose === "sale" ? "#ff5a3c" : "#0f408a"}>
+            {post.purpose === "sale" ? "продажба" : "изнајмување"}
           </SaleRentSpan>
           <NumberOfImages>
             <FiCamera className="icon" />
@@ -77,7 +77,7 @@ const SinglePost = ({ post }) => {
           <MiddleLocation>
             <ImLocation className="location-icon" />
             <span>
-              локација:{post.location.city}
+              локација:{cyr_to_lat(post.location.city)}
               &nbsp;
               {post.location.settlement && post.location.settlement}
             </span>

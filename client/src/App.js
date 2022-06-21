@@ -13,6 +13,7 @@ import ProfilePage from "./pages/Profile";
 import PostDetailsPage from "./pages/PostDetails";
 import CreatePostPage from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
+import PostSearch from "./pages/PostSearch";
 import { ScrollToTop } from "./components/ReactScroll/Scroll";
 
 function App() {
@@ -41,7 +42,9 @@ function App() {
           <Route path="/posts/:id">
             <PostDetailsPage />
           </Route>
-          <ProtectedRoute path="/edit/:id" component={CreatePostPage} />
+          <Route path="/posts">
+            <PostSearch />
+          </Route>
         </Switch>
       </Router>
       <ScrollToTop />

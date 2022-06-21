@@ -74,7 +74,7 @@ const NavBar = (props) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/search" className="nav-link">
+            <NavLink to="/posts" className="nav-link">
               Пребарување
             </NavLink>
           </li>

@@ -56,7 +56,7 @@ const Loader = styled.div`
 const LoaderBig = () => {
   return (
     <div style={{ height: "100px" }}>
-      <Loader />;
+      <Loader />
     </div>
   );
 };

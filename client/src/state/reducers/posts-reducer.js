@@ -1,6 +1,7 @@
 import postConstants from "../constants/postsConstants";
 
 const initState = {
+  posts: [],
   myPosts: [],
   latestPosts: [],
   newPost: {},
@@ -20,6 +21,21 @@ const PostsReducer = (state = initState, action) => {
       return {
         ...state,
         isFetching: true,
+      };
+
+    case postConstants.GET_POSTS_SUCCESS:
+      return {
+        ...state,
+        posts: payload,
+        isFetching: false,
+        errorMsg: false,
+      };
+
+    case postConstants.GET_POSTS_FAIL:
+      return {
+        ...state,
+        isFetching: false,
+        errorMsg: payload,
       };
 
     case postConstants.GET_SINGLE_POST_SUCCESS:

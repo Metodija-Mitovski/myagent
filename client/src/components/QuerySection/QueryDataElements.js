@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   background: #fff;
   position: absolute;
   left: 0;
-  bottom: -3.5rem;
+  bottom: ${(props) => (props.search === true ? "17rem" : "-3.5rem")};
   -webkit-box-shadow: 3px 4px 18px -4px rgba(87, 87, 87, 1);
   -moz-box-shadow: 3px 4px 18px -4px rgba(87, 87, 87, 1);
   box-shadow: 3px 4px 18px -4px rgba(87, 87, 87, 1);

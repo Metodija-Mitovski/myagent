@@ -47,6 +47,33 @@ export const getLatestPostsRequest = () => {
   };
 };
 
+////////// posts
+export const getPostsSuccess = (posts) => {
+  return { type: postConstants.GET_POSTS_SUCCESS, payload: posts };
+};
+
+export const getPostsFail = (error) => {
+  return {
+    type: postConstants.GET_POSTS_FAIL,
+    payload: error,
+  };
+};
+
+export const getPostsRequest = (url) => {
+  return async (dispatch) => {
+    try {
+      dispatch(postsActionStart());
+      const res = await axios.get(url);
+      if (res.status === 200) {
+        return dispatch(getPostsSuccess(res.data));
+      }
+      throw new Error();
+    } catch (error) {
+      dispatch(getPostsFail(error));
+    }
+  };
+};
+
 ///////////// related posts
 
 export const getRelatedPostsSuccess = (posts) => {
