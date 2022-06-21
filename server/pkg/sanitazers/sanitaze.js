@@ -17,6 +17,23 @@ function clearWhiteSpace(obj) {
   recurse(obj);
 }
 
+const formatQuery = (data) => {
+  let query = { ...data };
+  delete query.page;
+
+  if (query.city === "all") {
+    delete query.city;
+  }
+
+  if (query.city) {
+    query = { ...query, location: { city: query.city } };
+    delete query.city;
+  }
+
+  return query;
+};
+
 module.exports = {
   clearWhiteSpace,
+  formatQuery,
 };

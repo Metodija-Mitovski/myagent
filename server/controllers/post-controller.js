@@ -86,7 +86,23 @@ module.exports.patch_removeImages = async (req, res) => {
   }
 };
 
-module.exports.get_Posts = async (req, res) => {};
+module.exports.get_Posts = async (req, res) => {
+  let limitPerPage = 3;
+  let page = req.query.page;
+  let query = sanitaze.formatQuery(req.query);
+
+  try {
+    const posts = await Post.find(query)
+      .sort({ createdAt: "desc" })
+      .populate({ path: "user", select: "firstName lastName profileImg -_id" })
+      .skip((page - 1) * limitPerPage)
+      .limit(limitPerPage);
+
+    res.status(200).send(posts);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
 module.exports.get_latestPosts = async (req, res) => {
   try {

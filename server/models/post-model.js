@@ -14,14 +14,14 @@ const postSchema = new mongoose.Schema(
     purpose: {
       type: String,
       enum: {
-        values: ["продажба", "изнајмување"],
+        values: ["sale", "rent"],
         message: "дозволени опции:(продажба,изнајмување)",
       },
     },
     realEstateType: {
       type: String,
       enum: {
-        values: ["стан", "куќа", "гарсоњера"],
+        values: ["apartment", "house", "studio"],
         message: "дозволени опции:(стан,куќа,гарсоњера)",
       },
     },
